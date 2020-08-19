@@ -1,2 +1,2 @@
-# EMS
-一个用于学习Vue.js和SpringBoot而生的选课系统Demo
+# 社区门户网站
+社区门户网站java后端，应用springboot，学习的同时进行应用

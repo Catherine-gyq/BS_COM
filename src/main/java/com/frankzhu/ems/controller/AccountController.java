@@ -29,20 +29,20 @@ public class AccountController {
     ) throws NoSuchAlgorithmException {
         return accountMapper.updateAccount(username, md5(username), identity);
     }
-
-    @PostMapping("/api/account/updatePwd")
-    public Integer updatePwd(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
-        String name = params.get("name").toString();
-        String password = params.get("password").toString();
-        String identity = params.get("identity").toString();
-        return accountMapper.updateAccount(name, md5(password), identity);
-    }
+//
+//    @PostMapping("/api/account/updatePwd")
+//    public Integer updatePwd(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
+//        String name = params.get("name").toString();
+//        String password = params.get("password").toString();
+//        String identity = params.get("identity").toString();
+//        return accountMapper.updateAccount(name, md5(password), identity);
+//    }
 
     @PostMapping("/api/account/login")
     public Integer login(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
         String name = params.get("username").toString();
         String password = params.get("password").toString();
-        String identity = params.get("identity").toString();;
+        String identity = params.get("identity").toString();
         return accountMapper.findAccount(name, md5(password), identity) == null ? 0 : 1;
     }
 

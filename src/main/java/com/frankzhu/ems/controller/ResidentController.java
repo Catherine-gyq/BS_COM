@@ -1,62 +1,69 @@
 package com.frankzhu.ems.controller;
 
 import com.frankzhu.ems.mapper.AccountMapper;
-import com.frankzhu.ems.mapper.StudentMapper;
-import com.frankzhu.ems.model.Student;
+import com.frankzhu.ems.mapper.ResidentMapper;
+import com.frankzhu.ems.model.Resident;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
+//import org.apache.commons.lang.StringUtils;
 
 @RestController
-public class StudentController {
+public class ResidentController {
 
-    private final StudentMapper studentMapper;
+    private final ResidentMapper residentMapper;
     private final AccountMapper accountMapper;
     private final static String[] hexArray = {"0", "1", "2", "3", "4", "5", "6", "7",
             "8", "9", "a", "b", "c", "d", "e", "f"};
 
     @Autowired
-    public StudentController(StudentMapper studentMapper, AccountMapper accountMapper){
-        this.studentMapper = studentMapper;
+    public ResidentController(ResidentMapper residentMapper, AccountMapper accountMapper){
+        this.residentMapper = residentMapper;
         this.accountMapper = accountMapper;
     }
 
-    @GetMapping("/api/student/all")
-    public List<Map<String, Object>> findAllStudent(
-            @RequestParam(value = "no", defaultValue = "") String no,
+    @GetMapping("/api/resident/all")
+    public List<Map<String, Object>> findAllResident(
+            @RequestParam(value = "usr_tele", defaultValue = "") String usr_tele,
             @RequestParam(value = "name", defaultValue = "") String name){
-        return studentMapper.findAllStudent(no, name);
+        return residentMapper.findAllResident(usr_tele, name);
     }
 
-    @PostMapping("/api/student/add")
-    public Integer insertStudent(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
+    @PostMapping("/api/resident/add")
+    public Integer insertResident(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
         String name = params.get("name").toString();
-        String no = params.get("no").toString();
         String sex = params.get("sex").toString();
-        String birthday = params.get("birthday").toString();
-        String department = params.get("departmentID").toString();
-        // 同步创建一个账号
-        accountMapper.addAccount(no, md5(no), "student");
-        return studentMapper.insertStudent(new Student(no, name, sex, birthday, department));
+        String tele = params.get("tele").toString();
+        String address = params.get("address").toString();
+        // 同步创建一个账号(密码是手机号)
+        accountMapper.addAccount(tele, md5(tele), "resident");
+        return residentMapper.insertResident(new Resident(tele, name, sex, address));
     }
 
-    @PostMapping("/api/student/update")
-    public Integer updateStudent(@RequestBody Map<String, Object> params){
+    //
+    @PostMapping("/api/resident/update")
+    public Integer updateResident(@RequestBody Map<String, Object> params){
+        String id = params.get("resident_id").toString();
+        id = id.substring(0,id.length()-2);
         String name = params.get("name").toString();
-        String no = params.get("no").toString();
         String sex = params.get("sex").toString();
-        String birthday = params.get("birthday").toString();
-        String department = params.get("departmentID").toString();
-        return studentMapper.updateStudent(new Student(no, name, sex, birthday, department));
+        String tele = params.get("tele").toString();
+        String address = params.get("address").toString();
+//        accountMapper.updateAccounttele(tele);
+        return residentMapper.updateResident(id, new Resident(tele, name, sex, address));
     }
 
-    @GetMapping("/api/student/delete")
-    public Integer deleteStudentByNo(@RequestParam(value = "no", defaultValue = "") String no){
-        return studentMapper.deleteStudentByNo(no);
+
+    //删除居民
+    @GetMapping("/api/resident/delete")
+    public Integer deleteResidentByTele(@RequestParam(value = "tele", defaultValue = "") String tele){
+        System.out.println(tele);
+        return residentMapper.deleteResidentByTele(tele);
     }
 
     // md5加密算法

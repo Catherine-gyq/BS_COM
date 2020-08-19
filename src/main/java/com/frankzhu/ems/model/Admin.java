@@ -1,27 +1,26 @@
 package com.frankzhu.ems.model;
 
-public class Student {
+public class Admin {
 
-    private String no;
+    private int id;
     private String name;
     private String sex;
     private String birthday;
+    private String education;
     private String department;
 
-    public Student(String no, String name, String sex, String birthday, String department){
-        this.no = no;
+    public Admin(String name, String sex, String birthday, String education, String department){
         this.name = name;
         this.sex = sex;
         this.birthday = birthday;
+        this.education = education;
         this.department = department;
     }
 
-    public String getNo() {
-        return no;
+    public int getId() {
+        return id;
     }
-    public void setNo(String no) {
-        this.no = no;
-    }
+    public void setId(int id) { this.id = id;}
     public String getName() {
         return name;
     }
@@ -39,6 +38,12 @@ public class Student {
     }
     public void setBirthday(String birthday){
         this.birthday = birthday == null ? null : birthday.trim();
+    }
+    public String getEducation(){
+        return education;
+    }
+    public void setEducation(String education){
+        this.education = education == null ? null : education.trim();
     }
     public String getDepartment(){
         return department;

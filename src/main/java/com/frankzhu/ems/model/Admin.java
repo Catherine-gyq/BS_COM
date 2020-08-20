@@ -5,16 +5,13 @@ public class Admin {
     private int id;
     private String name;
     private String sex;
-    private String birthday;
-    private String education;
-    private String department;
+    private String tele;
 
-    public Admin(String name, String sex, String birthday, String education, String department){
+    public Admin(String name, String sex, String tele){
         this.name = name;
         this.sex = sex;
-        this.birthday = birthday;
-        this.education = education;
-        this.department = department;
+        this.tele = tele;
+
     }
 
     public int getId() {
@@ -33,23 +30,10 @@ public class Admin {
     public void setSex(String sex) {
         this.sex = sex == null ? null : sex.trim();
     }
-    public String getBirthday(){
-        return birthday;
+    public String getTele(){
+        return tele;
     }
-    public void setBirthday(String birthday){
-        this.birthday = birthday == null ? null : birthday.trim();
+    public void setTele(String tele){
+        this.tele = tele == null ? null : tele.trim();
     }
-    public String getEducation(){
-        return education;
-    }
-    public void setEducation(String education){
-        this.education = education == null ? null : education.trim();
-    }
-    public String getDepartment(){
-        return department;
-    }
-    public void setDepartment(String department){
-        this.department = department == null ? null : department.trim();
-    }
-
 }

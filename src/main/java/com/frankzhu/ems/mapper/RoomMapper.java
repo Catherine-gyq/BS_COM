@@ -11,5 +11,4 @@ import java.util.Map;
 public interface RoomMapper {
     @Select("select * from Room")
     List<Map<String, Object>> findAllRoom();
-
 }

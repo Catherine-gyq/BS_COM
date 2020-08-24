@@ -62,9 +62,18 @@ public class ResidentController {
     //删除居民
     @GetMapping("/api/resident/delete")
     public Integer deleteResidentByTele(@RequestParam(value = "tele", defaultValue = "") String tele){
-        System.out.println(tele);
+//        System.out.println(tele);
         return residentMapper.deleteResidentByTele(tele);
     }
+
+    @GetMapping("/api/resident/usr")
+    public List<Map<String, Object>> GetAdmin(
+            @RequestParam(value = "tele", defaultValue = "") String tele){
+//        System.out.println(tele);
+        return residentMapper.GetResident(tele);
+    }
+
+
 
     // md5加密算法
     public String md5(String source) throws NoSuchAlgorithmException {

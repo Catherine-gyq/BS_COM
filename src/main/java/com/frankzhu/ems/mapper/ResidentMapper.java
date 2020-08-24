@@ -30,4 +30,8 @@ public interface ResidentMapper {
     @Delete("delete from Resident where tele=#{tele}")
     Integer deleteResidentByTele(@Param("tele") String tele);
 
+    // 查询当前居民
+    @Select("select resident_id,name from Resident where tele=#{tele}")
+    List<Map<String, Object>> GetResident(@Param("tele") String tele);
+
 }

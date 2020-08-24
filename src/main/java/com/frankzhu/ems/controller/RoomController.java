@@ -1,9 +1,9 @@
 package com.frankzhu.ems.controller;
 
 import com.frankzhu.ems.mapper.RoomMapper;
+import com.frankzhu.ems.model.Resident;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +18,11 @@ public class RoomController {
         this.roomMapper = roomMapper;
     }
 
+//    获取所有的房间信息
     @GetMapping("api/room/all")
     public List<Map<String, Object>> FindAllRoom(){
-//        System.out.println("获取房间信息");
         return roomMapper.findAllRoom();
     }
+
 
 }

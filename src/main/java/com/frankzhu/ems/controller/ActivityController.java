@@ -27,16 +27,17 @@ public class ActivityController {
         String room_id = params.get("room_id").toString();
         room_id = room_id.substring(0,room_id.length()-2);
         resident_id = resident_id.substring(0,resident_id.length()-2);
-//        System.out.println("房间号"+room_id);
-//        System.out.println("用户编号"+resident_id);
-        System.out.println("日期"+date);
-        System.out.println("开始时间"+startTime);
-        //错误：Activity中没有admin_id,考虑将Activity表分成两张表
         return activityMapper.reserveActivity(new Activity(room_id,resident_id,usage,date,startTime,endTime,status));
     }
 
-    @GetMapping("api/activity/all")//@RequestParam(value = "activity_id", defaultValue = "") String activity_id
+    @GetMapping("api/activity/all")
     public List<Map<String,Object>> FindAllActivity(){
         return activityMapper.findallActivity();
+    }
+
+    @GetMapping("/api/activity/cancel")
+    public Integer deleteActivity(@RequestParam(value ="activity_id", defaultValue = "") String activity_id){
+//        System.out.println("活动编号"+activity_id);
+        return activityMapper.deleteActivity(activity_id);
     }
 }

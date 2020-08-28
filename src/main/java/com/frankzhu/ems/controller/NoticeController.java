@@ -18,25 +18,13 @@ public class NoticeController {
         this.noticeMapper = noticeMapper;
     }
 
+    // 获取所有消息 应该加上消息1
     @GetMapping("/api/notice/all")
     public List<Map<String, Object>> findAllNotice(
             @RequestParam(value = "time", defaultValue = "") String time,
             @RequestParam(value = "name", defaultValue = "") String name){
-//        System.out.println(time);
-//        System.out.println(name);
-//        System.out.println("跑过一次整所有消息信息的");
         return noticeMapper.findAllNotice(time, name);
     }
-
-
-//    @GetMapping("/api/notice/all")
-//    public void findAllNotice(
-//            @RequestParam(value = "time", defaultValue = "") String time,
-//            @RequestParam(value = "name", defaultValue = "") String name){
-//        System.out.println(time);
-//        System.out.println(name);
-//        System.out.println(noticeMapper.findAllNotice(time, name));
-//    }
 
     @PostMapping("/api/notice/add")
     public Integer insertCourse(@RequestBody Map<String, Object> params) {
@@ -64,5 +52,7 @@ public class NoticeController {
     public Integer deleteCourseByNo(@RequestParam(value = "id", defaultValue = "") String id){
         return noticeMapper.deleteNoticeById(id);
     }
+
+
 
 }

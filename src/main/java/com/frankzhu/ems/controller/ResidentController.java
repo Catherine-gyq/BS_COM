@@ -66,8 +66,9 @@ public class ResidentController {
         return residentMapper.deleteResidentByTele(tele);
     }
 
+    //获取居民信息
     @GetMapping("/api/resident/usr")
-    public List<Map<String, Object>> GetAdmin(
+    public Map<String, Object> GetResident(
             @RequestParam(value = "tele", defaultValue = "") String tele){
 //        System.out.println(tele);
         return residentMapper.GetResident(tele);

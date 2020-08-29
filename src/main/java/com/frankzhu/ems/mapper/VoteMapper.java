@@ -24,7 +24,8 @@ public interface VoteMapper {
     List<Map<String, Object> >voteCount(@Param("vote_id") String vote_id);
 
     // 搜索所有消息
-    @Select("")
+    @Select("select N.notice_id as id, N.publish_time as time, N.title as title, content, A.admin_name as people,A.admin_id as admin_id,\n" +
+            "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id where type='02'")
     List<Map<String, Object>> findAllVote();
 
 

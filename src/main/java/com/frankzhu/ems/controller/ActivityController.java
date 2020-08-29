@@ -24,6 +24,7 @@ public class ActivityController {
         String resident_id = params.get("resident_id").toString();
         String startTime = params.get("startTime").toString();
         String endTime = params.get("endTime").toString();
+//        System.out.println(startTime);
         String room_id = params.get("room_id").toString();
         room_id = room_id.substring(0,room_id.length()-2);
         resident_id = resident_id.substring(0,resident_id.length()-2);
@@ -37,7 +38,6 @@ public class ActivityController {
 
     @GetMapping("/api/activity/cancel")
     public Integer deleteActivity(@RequestParam(value ="activity_id", defaultValue = "") String activity_id){
-//        System.out.println("活动编号"+activity_id);
         return activityMapper.deleteActivity(activity_id);
     }
 }

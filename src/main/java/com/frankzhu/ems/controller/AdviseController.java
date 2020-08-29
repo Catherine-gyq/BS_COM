@@ -12,7 +12,7 @@ import java.util.Map;
 public class AdviseController {
 
     private final AdviseMapper adviseMapper;
-//    private final VoteMapper voteMapper;
+
 
     @Autowired
     public AdviseController(AdviseMapper adviseMapper){
@@ -21,7 +21,7 @@ public class AdviseController {
 
     //获取意见箱中所有的意见信息
     @GetMapping("/api/advise/all")
-    public List<Map<String, Object>> findAllAdvise(){
+    public List<Map<String, Object>> findallAdvise(){
         return adviseMapper.findAllAdvise();
     }
 
@@ -29,10 +29,10 @@ public class AdviseController {
     //添加消息
     @PostMapping("/api/advise/add")
     public Integer insertAdvice(@RequestBody Map<String, Object> params) {
-        String datetime = params.get("box_time").toString();
         String resident_id = params.get("resident_id").toString();
-        String box_title = params.get("box_title").toString();
-        String box_content = params.get("box_content").toString();
+        String datetime = params.get("date").toString();
+        String box_title = params.get("title").toString();
+        String box_content = params.get("content").toString();
         String status = "待处理";
         return adviseMapper.insertAdvice(new Advise(datetime, resident_id,box_title,box_content,status));
     }

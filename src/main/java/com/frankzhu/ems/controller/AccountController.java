@@ -22,6 +22,7 @@ public class AccountController {
         this.accountMapper=accountMapper;
     }
 
+    // 密码重置
     @GetMapping("/api/account/resetPwd")
     public Integer resetPwd(
             @RequestParam(value = "username") String username,
@@ -29,7 +30,8 @@ public class AccountController {
     ) throws NoSuchAlgorithmException {
         return accountMapper.updateAccount(username, md5(username), identity);
     }
-//
+
+    // 用于用户自己将
 //    @PostMapping("/api/account/updatePwd")
 //    public Integer updatePwd(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
 //        String name = params.get("name").toString();
@@ -38,8 +40,11 @@ public class AccountController {
 //        return accountMapper.updateAccount(name, md5(password), identity);
 //    }
 
+    // 用於用戶的登錄
     @PostMapping("/api/account/login")
     public Integer login(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
+
+//        可以分成
         String name = params.get("username").toString();
         String password = params.get("password").toString();
         String identity = params.get("identity").toString();

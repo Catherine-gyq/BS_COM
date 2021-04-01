@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//import org.apache.commons.lang.StringUtils;
 
 @RestController
 public class ResidentController {
@@ -27,13 +27,23 @@ public class ResidentController {
         this.accountMapper = accountMapper;
     }
 
+    //获取所有的居民信息
     @GetMapping("/api/resident/all")
-    public List<Map<String, Object>> findAllResident(
+    public Map<String, Object> findAllResident(
             @RequestParam(value = "usr_tele", defaultValue = "") String usr_tele,
-            @RequestParam(value = "name", defaultValue = "") String name){
-        return residentMapper.findAllResident(usr_tele, name);
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "pageSize", defaultValue = "") Integer pageSize,
+            @RequestParam(value = "currentPage", defaultValue = "") Integer currentPage){
+        Integer allNum = pageSize*(currentPage-1);
+        List<Map<String, Object>> residentInformation  = residentMapper.findAllResidentData(usr_tele,name,allNum,pageSize);
+        int totalNum =  residentMapper.findResidentTotalNum(usr_tele,name);
+        Map<String, Object> resident =new HashMap<String, Object>();
+        resident.put("totalNum", totalNum);
+        resident.put("residentInfo",residentInformation);
+        return resident;
     }
 
+    //    添加居民
     @PostMapping("/api/resident/add")
     public Integer insertResident(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
         String name = params.get("name").toString();
@@ -45,7 +55,7 @@ public class ResidentController {
         return residentMapper.insertResident(new Resident(tele, name, sex, address));
     }
 
-    //
+    //改变居民的信息
     @PostMapping("/api/resident/update")
     public Integer updateResident(@RequestBody Map<String, Object> params){
         String id = params.get("resident_id").toString();

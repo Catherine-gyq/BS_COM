@@ -9,7 +9,6 @@ import java.util.Map;
 public interface AccountMapper {
 
     // 搜索用户密码是否匹配
-//
     @Select("select * from Account where usr_name=#{no} and password=#{pwd} and type= #{ident}")
     Map<String, Object> findAccount(@Param("no") String no, @Param("pwd") String pwd, @Param("ident") String ident);
 

@@ -24,6 +24,7 @@ public class AdminController {
         this.accountMapper = accountMapper;
     }
 
+    //获取管理员自身的信息
     @GetMapping("/api/admin/usr")
     public List<Map<String, Object>> GetAdmin(
             @RequestParam(value = "tele", defaultValue = "") String tele){

@@ -23,12 +23,12 @@ public interface ResidentMapper {
 
     // 添加居民
     @Insert("insert into Resident (name, sex, tele, address) VALUES" +
-            "(#{name}, #{sex}, #{tele}, #{address})")
+            "(#{name}, #{sex}, #{tele}, #{address},#{mailBox})")
     Integer insertResident(Resident resident);
 
-    // 更新信息
+    // 更新居民信息
     @Update("update Resident set name=#{resident.name}, sex=#{resident.sex},"+
-            " tele=#{resident.tele}, address=#{resident.address} where resident_id=#{id}")
+            " tele=#{resident.tele}, address=#{resident.address}, mailBox=#{mailBox} where resident_id=#{id}")
     Integer updateResident(@Param("id") String id, Resident resident);
 
     // 删除居民

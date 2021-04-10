@@ -24,7 +24,6 @@ public class ActivityController {
         String resident_id = params.get("resident_id").toString();
         String startTime = params.get("startTime").toString();
         String endTime = params.get("endTime").toString();
-//        System.out.println(startTime);
         String room_id = params.get("room_id").toString();
         room_id = room_id.substring(0,room_id.length()-2);
         resident_id = resident_id.substring(0,resident_id.length()-2);

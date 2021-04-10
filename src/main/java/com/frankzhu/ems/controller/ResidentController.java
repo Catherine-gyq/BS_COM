@@ -50,12 +50,12 @@ public class ResidentController {
         String sex = params.get("sex").toString();
         String tele = params.get("tele").toString();
         String address = params.get("address").toString();
-        // 同步创建一个账号(密码是手机号)
+        String mailBox = params.get("mailBox").toString();
         accountMapper.addAccount(tele, md5(tele), "resident");
-        return residentMapper.insertResident(new Resident(tele, name, sex, address));
+        return residentMapper.insertResident(new Resident(tele, name, sex, address,mailBox));
     }
 
-    //改变居民的信息
+    //更新居民的信息
     @PostMapping("/api/resident/update")
     public Integer updateResident(@RequestBody Map<String, Object> params){
         String id = params.get("resident_id").toString();
@@ -64,15 +64,14 @@ public class ResidentController {
         String sex = params.get("sex").toString();
         String tele = params.get("tele").toString();
         String address = params.get("address").toString();
-//        accountMapper.updateAccounttele(tele);
-        return residentMapper.updateResident(id, new Resident(tele, name, sex, address));
+        String mailBox = params.get("mailBox").toString();
+        return residentMapper.updateResident(id, new Resident(tele, name, sex, address,mailBox));
     }
 
 
     //删除居民
     @GetMapping("/api/resident/delete")
     public Integer deleteResidentByTele(@RequestParam(value = "tele", defaultValue = "") String tele){
-//        System.out.println(tele);
         return residentMapper.deleteResidentByTele(tele);
     }
 
@@ -80,7 +79,6 @@ public class ResidentController {
     @GetMapping("/api/resident/usr")
     public Map<String, Object> GetResident(
             @RequestParam(value = "tele", defaultValue = "") String tele){
-//        System.out.println(tele);
         return residentMapper.GetResident(tele);
     }
 

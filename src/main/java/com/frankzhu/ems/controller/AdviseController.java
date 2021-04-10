@@ -5,6 +5,7 @@ import com.frankzhu.ems.model.Advise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +21,21 @@ public class AdviseController {
     }
 
     //获取意见箱中所有的意见信息
-    @GetMapping("/api/advise/all")
-    public List<Map<String, Object>> findallAdvise(){
-        return adviseMapper.findAllAdvise();
+    @PostMapping("/api/advise/all")
+    public Map<String, Object> findAllAdvise(@RequestBody Map<String, Object> params){
+        String pageSize1 = params.get("pageSize").toString();
+        String currentPage1 = params.get("currentPage").toString();
+        pageSize1 = pageSize1.substring(0,pageSize1.length()-2);
+        currentPage1 = currentPage1.substring(0,currentPage1.length()-2);
+        Integer pageSize = Integer.valueOf(pageSize1);
+        Integer currentPage = Integer.valueOf(currentPage1);
+        Integer allNum = pageSize*(currentPage-1);
+        List<Map<String, Object>> adviseInfo = adviseMapper.findAllAdvise(allNum,pageSize);
+        Integer totalNum = adviseMapper.findAdviseNum();
+        Map<String, Object> advise =new HashMap<String, Object>();
+        advise.put("totalNum", totalNum);
+        advise.put("residentInfo",adviseInfo);
+        return advise;
     }
 
 

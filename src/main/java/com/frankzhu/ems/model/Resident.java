@@ -7,13 +7,15 @@ public class Resident {
     private String name;
     private String sex;
     private String address;
+    private String mailBox;
 
 //    id自增
-    public Resident(String tele, String name, String sex, String address){
+    public Resident(String tele, String name, String sex, String address, String mailBox){
         this.name = name;
         this.sex = sex;
         this.tele = tele;
         this.address = address;
+        this.mailBox = mailBox;
     }
 
     public int getId() {
@@ -45,6 +47,12 @@ public class Resident {
     }
     public void setAddress(String address){
         this.address = address == null ? null : address.trim();
+    }
+    public String getMailBox(){
+        return mailBox;
+    }
+    public void setMailBox(String mailBox){
+        this.mailBox = mailBox == null ? null : mailBox.trim();
     }
 
 }

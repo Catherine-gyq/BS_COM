@@ -2,11 +2,13 @@ package com.frankzhu.ems.controller;
 
 import com.frankzhu.ems.mapper.AccountMapper;
 import com.frankzhu.ems.mapper.AdminMapper;
+import com.frankzhu.ems.model.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,9 +30,56 @@ public class AdminController {
     @GetMapping("/api/admin/usr")
     public List<Map<String, Object>> GetAdmin(
             @RequestParam(value = "tele", defaultValue = "") String tele){
-//        System.out.println(tele);
         return adminMapper.GetAdmin(tele);
     }
+
+    //获取所有管理员的信息
+    @GetMapping("/api/admin/all")
+    public Map<String, Object> GetAdminInfo(
+            @RequestParam(value = "tele", defaultValue = "") String tele,
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "pageSize", defaultValue = "") int pageSize,
+            @RequestParam(value = "currentPage", defaultValue = "") int currentPage){
+        Integer allNum = pageSize*(currentPage-1);
+        List<Map<String, Object>> adminInfo  = adminMapper.GetAdminInfo(tele,name,pageSize,allNum);
+        int totalNum =  adminMapper.getAdminTotalNum(tele,name);
+        Map<String, Object> admin =new HashMap<String, Object>();
+        admin.put("totalNum", totalNum);
+        admin.put("adminInfo",adminInfo);
+        return admin;
+    }
+
+    //删除该管理员
+    @GetMapping("/api/admin/delete")
+    public Integer deleteResidentByTele(@RequestParam(value = "tele", defaultValue = "") String tele){
+        return adminMapper.deleteAdminByTele(tele);
+    }
+
+    //  添加居民
+    @PostMapping("/api/admin/add")
+    public Integer insertResident(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
+        String name = params.get("name").toString();
+        String sex = params.get("sex").toString();
+        String tele = params.get("tele").toString();
+        String mailBox = params.get("mailBox").toString();
+        String dateOfBirth = params.get("dateOfBirth").toString();
+        accountMapper.addAccount(tele, md5(tele), "admin");
+        return adminMapper.insertAdmin(new Admin(tele, name, sex, mailBox,dateOfBirth));
+    }
+
+    //更新管理员的信息
+    @PostMapping("/api/admin/update")
+    public Integer updateResident(@RequestBody Map<String, Object> params){
+        String id = params.get("resident_id").toString();
+        id = id.substring(0,id.length()-2);
+        String name = params.get("name").toString();
+        String sex = params.get("sex").toString();
+        String tele = params.get("tele").toString();
+        String mailBox = params.get("mailBox").toString();
+        String dateOfBirth = params.get("dateOfBirth").toString();
+        return adminMapper.updateAdmin(id, new Admin(tele, name, sex,mailBox,dateOfBirth));
+    }
+
 
 //    @GetMapping("/api/admin/usr")
 //    public void GetAdmin(

@@ -6,12 +6,15 @@ public class Admin {
     private String name;
     private String sex;
     private String tele;
+    private String mailbox;
+    private String dateOfBirth;
 
-    public Admin(String name, String sex, String tele){
+    public Admin(String name, String sex, String tele,String mailbox,String dateOfBirth){
         this.name = name;
         this.sex = sex;
         this.tele = tele;
-
+        this.mailbox = mailbox;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public int getId() {
@@ -35,5 +38,14 @@ public class Admin {
     }
     public void setTele(String tele){
         this.tele = tele == null ? null : tele.trim();
+    }
+    public String getMailbox(){
+        return mailbox;
+    }
+    public void setMailbox(String mailbox){
+        this.mailbox = mailbox == null ? null : mailbox.trim();
+    }
+    public void setDateOfBirth(String dateOfBirth){
+        this.dateOfBirth = dateOfBirth == null ? null : dateOfBirth.trim();
     }
 }

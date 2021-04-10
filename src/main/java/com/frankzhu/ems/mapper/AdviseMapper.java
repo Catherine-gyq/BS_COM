@@ -15,8 +15,14 @@ import java.util.Map;
 public interface AdviseMapper {
 
     //获取意见箱中所有建议
-    @Select("select box_id,box_time as date,box_title as title,box_content as content,box_status as status from Box;")
-    List<Map<String, Object>>findAllAdvise();
+    @Select("select box_id,box_time as date,box_title as title,box_content as content,box_status as status from Box limit #{pageSize} offset #{allNum}")
+    List<Map<String, Object>>findAllAdvise(@Param("allNum") int allNum,@Param("pageSize") int pageSize);
+
+    // 获取意见箱中的建议数量
+    @Select("select count(*) from Box")
+    Integer findAdviseNum();
+
+
 
     //添加建议
     @Insert("insert into Box(box_time, resident_id, box_title, box_content, box_status) VALUES"+

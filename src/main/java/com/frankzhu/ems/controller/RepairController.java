@@ -45,8 +45,18 @@ public class RepairController {
 //    public List<Map<String, Object>> findOwnCourseByStudentNo(@RequestParam(value = "no", defaultValue = "") String no){
     //用户获取所有维修消息
     @GetMapping("/api/repair/all")
-    public List<Map<String, Object>> findAllRepair(@RequestParam(value = "id", defaultValue = "") String id){
-        return repairMapper.findAllRepair(id);
+    public Map<String, Object> findAllRepair(
+            @RequestParam(value = "id", defaultValue = "") String id,
+            @RequestParam(value = "pageSize", defaultValue = "") Integer pageSize,
+            @RequestParam(value = "currentPage", defaultValue = "") Integer currentPage){
+//        修改
+        Integer allNum = pageSize*(currentPage-1);
+        List<Map<String, Object>> repairInformation = repairMapper.findAllRepair(id,pageSize,allNum);
+        int totalNum =  repairMapper.findRepairTotalNum(id);
+        Map<String, Object> resident =new HashMap<String, Object>();
+        resident.put("totalNum", totalNum);
+        resident.put("residentInfo",repairInformation);
+        return resident;
     }
     // 增加预约
     @PostMapping("/api/repair/add")
@@ -69,13 +79,17 @@ public class RepairController {
     //  从管理员视角获取所有维修预约
     @PostMapping("api/repair/allInfo")
     public Map<String, Object> getAllRepairs(@RequestBody Map<String, Object> params){
-        String startTime = params.get("startTime").toString();
-        String endTime = params.get("endTime").toString();
         String status = params.get("reserveStatus").toString();
-        if (startTime.length()==0){
+        String startTime;
+        String endTime;
+        if (params.containsKey("startTime") && params.get("startTime").toString().length()!=0){
+            startTime = params.get("startTime").toString();
+        }else{
             startTime = "0000-01-01";
         }
-        if (endTime.length()==0){
+        if (params.containsKey("endTime") && params.get("endTime").toString().length()!=0){
+            endTime = params.get("endTime").toString();
+        }else{
             endTime = "9999-01-01";
         }
         String pageSize1 = params.get("pageSize").toString();

@@ -23,10 +23,20 @@ public class NoticeController {
     // 有些是非必须属性
     @PostMapping("/api/notice/all")
     public Map<String, Object> findAllNotice(@RequestBody Map<String, Object> params){
-        System.out.println(params);
+//        System.out.println(params);
         String name = params.get("name").toString();
-        String startTime = params.get("startTime").toString();
-        String endTime = params.get("endTime").toString();
+        String startTime;
+        String endTime;
+        if (params.containsKey("startTime") && params.get("startTime").toString().length()!=0){
+            startTime = params.get("startTime").toString();
+        }else{
+            startTime = "0000-01-01";
+        }
+        if (params.containsKey("endTime") && params.get("endTime").toString().length()!=0){
+            endTime = params.get("endTime").toString();
+        }else{
+            endTime = "9999-01-01";
+        }
         String pageSize1 = params.get("pageSize").toString();
         String currentPage1 = params.get("currentPage").toString();
 
@@ -35,12 +45,6 @@ public class NoticeController {
         Integer pageSize = Integer.valueOf(pageSize1);
         Integer currentPage = Integer.valueOf(currentPage1);
         Integer allNum = pageSize*(currentPage-1);
-        if (startTime.length()==0){
-            startTime = "0000-01-01";
-        }
-        if (endTime.length()==0){
-            endTime = "9999-01-01";
-        }
         int totalNum =  noticeMapper.findAllNoticeTotalNum(name,startTime,endTime);
         List<Map<String, Object>> noticeInformation  = noticeMapper.findAllNoticeData(name,startTime,endTime,allNum,pageSize);
         Map<String, Object> notice =new HashMap<String, Object>();

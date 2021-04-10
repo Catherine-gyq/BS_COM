@@ -50,8 +50,13 @@ public interface RepairMapper {
 
     // 用户获取维修预约的所有消息
     @Select("select repair_id,repair_time as date,repair_address as address,repair_content as "+
-            "content,repair_status as status from Repair where resident_id=#{id}")
-    List<Map<String, Object> >findAllRepair(@Param("id") String id);
+            "content,repair_status as status from Repair where resident_id=#{id} limit #{pageSize} offset #{allNum}")
+    List<Map<String, Object> >findAllRepair(@Param("id") String id,@Param("pageSize") int pageSize,@Param("allNum") int allNum);
+
+    // 用户获取维修预约的消息数量
+
+    @Select("select count(*) from Repair where resident_id=#{id}")
+    Integer findRepairTotalNum(@Param("id") String id);
 
     // 管理员获取维修预约的所有消息
     @Select("select repair_id,repair_time as date,repair_address as address,repair_content as " +

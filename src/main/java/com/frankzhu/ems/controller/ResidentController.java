@@ -3,6 +3,9 @@ package com.frankzhu.ems.controller;
 import com.frankzhu.ems.mapper.AccountMapper;
 import com.frankzhu.ems.mapper.ResidentMapper;
 import com.frankzhu.ems.model.Resident;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +31,14 @@ public class ResidentController {
     }
 
     //获取所有的居民信息
-    @GetMapping("/api/resident/all")
+//    @GetMapping("/api/resident/all")
+//    @ApiOperation("/获取所有的居民信息")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String"),
+//            @ApiImplicitParam(name = "name",value = "姓名",required = true,paramType = "query",dataType = "String"),
+//            @ApiImplicitParam(name = "pageSize",value = "单页数量",required = true,paramType = "query",dataType = "String"),
+//            @ApiImplicitParam(name = "currentPage",value = "当前页",required = true,paramType = "query",dataType = "String")
+//    })
     public Map<String, Object> findAllResident(
             @RequestParam(value = "usr_tele", defaultValue = "") String usr_tele,
             @RequestParam(value = "name", defaultValue = "") String name,

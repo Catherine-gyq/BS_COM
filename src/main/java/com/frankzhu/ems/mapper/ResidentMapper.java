@@ -22,14 +22,14 @@ public interface ResidentMapper {
 
 
     // 添加居民
-    @Insert("insert into Resident (name, sex, tele, address) VALUES" +
-            "(#{name}, #{sex}, #{tele}, #{address},#{mailBox})")
+    @Insert("insert into Resident (name, sex, tele, address,mailbox) VALUES" +
+            "(#{name}, #{sex}, #{tele}, #{address}, #{mailBox})")
     Integer insertResident(Resident resident);
 
     // 更新居民信息
     @Update("update Resident set name=#{resident.name}, sex=#{resident.sex},"+
-            " tele=#{resident.tele}, address=#{resident.address}, mailBox=#{mailBox} where resident_id=#{id}")
-    Integer updateResident(@Param("id") String id, Resident resident);
+            " tele=#{resident.tele}, address=#{resident.address}, mailBox=#{resident.mailBox} where resident_id=#{id}")
+    Integer updateResident(@Param("id") int id, Resident resident);
 
     // 删除居民
     @Delete("delete from Resident where tele=#{tele}")

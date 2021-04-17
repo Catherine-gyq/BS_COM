@@ -3,9 +3,10 @@ package com.frankzhu.ems.controller;
 import com.frankzhu.ems.mapper.AccountMapper;
 import com.frankzhu.ems.mapper.ResidentMapper;
 import com.frankzhu.ems.model.Resident;
-//import io.swagger.annotations.ApiImplicitParam;
-//import io.swagger.annotations.ApiImplicitParams;
-//import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "居民管理")
 @RestController
 public class ResidentController {
 
@@ -31,14 +33,14 @@ public class ResidentController {
     }
 
     //获取所有的居民信息
-//    @GetMapping("/api/resident/all")
-//    @ApiOperation("/获取所有的居民信息")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String"),
-//            @ApiImplicitParam(name = "name",value = "姓名",required = true,paramType = "query",dataType = "String"),
-//            @ApiImplicitParam(name = "pageSize",value = "单页数量",required = true,paramType = "query",dataType = "String"),
-//            @ApiImplicitParam(name = "currentPage",value = "当前页",required = true,paramType = "query",dataType = "String")
-//    })
+    @GetMapping("/api/resident/all")
+    @ApiOperation("获取所有的居民信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "name",value = "姓名",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "pageSize",value = "单页数量",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "currentPage",value = "当前页",required = true,paramType = "query",dataType = "String")
+    })
     public Map<String, Object> findAllResident(
             @RequestParam(value = "usr_tele", defaultValue = "") String usr_tele,
             @RequestParam(value = "name", defaultValue = "") String name,
@@ -53,40 +55,41 @@ public class ResidentController {
         return resident;
     }
 
+
+
+
+
     //    添加居民
     @PostMapping("/api/resident/add")
-    public Integer insertResident(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
-        String name = params.get("name").toString();
-        String sex = params.get("sex").toString();
-        String tele = params.get("tele").toString();
-        String address = params.get("address").toString();
-        String mailBox = params.get("mailBox").toString();
+    @ApiOperation("添加居民")
+    public Integer insertResident(@RequestBody Resident resident) throws NoSuchAlgorithmException {
+        String tele = resident.getTele();
         accountMapper.addAccount(tele, md5(tele), "resident");
-        return residentMapper.insertResident(new Resident(tele, name, sex, address,mailBox));
+        return residentMapper.insertResident(resident);
     }
 
     //更新居民的信息
     @PostMapping("/api/resident/update")
-    public Integer updateResident(@RequestBody Map<String, Object> params){
-        String id = params.get("resident_id").toString();
-        id = id.substring(0,id.length()-2);
-        String name = params.get("name").toString();
-        String sex = params.get("sex").toString();
-        String tele = params.get("tele").toString();
-        String address = params.get("address").toString();
-        String mailBox = params.get("mailBox").toString();
-        return residentMapper.updateResident(id, new Resident(tele, name, sex, address,mailBox));
+    @ApiOperation("更新居民的信息")
+//    修改为Resident类
+    public Integer updateResident(@RequestBody Resident resident){
+        int id = resident.getId();
+        return residentMapper.updateResident(id, resident);
     }
 
 
     //删除居民
     @GetMapping("/api/resident/delete")
+    @ApiOperation("删除居民")
+    @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String")
     public Integer deleteResidentByTele(@RequestParam(value = "tele", defaultValue = "") String tele){
         return residentMapper.deleteResidentByTele(tele);
     }
 
     //获取居民信息
     @GetMapping("/api/resident/usr")
+    @ApiOperation("获取居民信息")
+    @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String")
     public Map<String, Object> GetResident(
             @RequestParam(value = "tele", defaultValue = "") String tele){
         return residentMapper.GetResident(tele);

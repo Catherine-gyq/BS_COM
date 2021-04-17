@@ -1,12 +1,26 @@
 package com.frankzhu.ems.model;
 
-public class Resident {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel("学生类")
+public class Resident {
+    @ApiModelProperty("id")
     private int id;
+
+    @ApiModelProperty("电话")
     private String tele;
+
+    @ApiModelProperty("姓名")
     private String name;
+
+    @ApiModelProperty("性别")
     private String sex;
+
+    @ApiModelProperty("地址")
     private String address;
+
+    @ApiModelProperty("邮箱")
     private String mailBox;
 
 //    id自增

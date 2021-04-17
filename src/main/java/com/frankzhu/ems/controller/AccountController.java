@@ -1,6 +1,7 @@
 package com.frankzhu.ems.controller;
 
 import com.frankzhu.ems.mapper.AccountMapper;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Api(tags = "账户管理")
 @RestController
 public class AccountController {
 

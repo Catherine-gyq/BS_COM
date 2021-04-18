@@ -2,6 +2,10 @@ package com.frankzhu.ems.controller;
 
 import com.frankzhu.ems.mapper.NoticeMapper;
 import com.frankzhu.ems.model.Notice;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "消息管理")
 @RestController
 public class NoticeController {
 
@@ -22,8 +27,8 @@ public class NoticeController {
     // 获取所有消息 应该加上消息类型
     // 有些是非必须属性
     @PostMapping("/api/notice/all")
+    @ApiOperation("获取所有的社区消息")
     public Map<String, Object> findAllNotice(@RequestBody Map<String, Object> params){
-//        System.out.println(params);
         String name = params.get("name").toString();
         String startTime;
         String endTime;
@@ -39,9 +44,11 @@ public class NoticeController {
         }
         String pageSize1 = params.get("pageSize").toString();
         String currentPage1 = params.get("currentPage").toString();
+//        System.out.println(pageSize1);
+//        System.out.println(currentPage1);
 
-        pageSize1 = pageSize1.substring(0,pageSize1.length()-2);
-        currentPage1 = currentPage1.substring(0,currentPage1.length()-2);
+//        pageSize1 = pageSize1.substring(0,pageSize1.length()-2);
+//        currentPage1 = currentPage1.substring(0,currentPage1.length()-2);
         Integer pageSize = Integer.valueOf(pageSize1);
         Integer currentPage = Integer.valueOf(currentPage1);
         Integer allNum = pageSize*(currentPage-1);
@@ -54,27 +61,24 @@ public class NoticeController {
     }
 
     @PostMapping("/api/notice/add")
-    public Integer insertCourse(@RequestBody Map<String, Object> params) {
-        String title = params.get("title").toString();
-        String time = params.get("time").toString();
-        String id = params.get("admin_id").toString();
-        String content = params.get("content").toString();
-        System.out.println(id);
-        return noticeMapper.insertNotice(new Notice(title,time,content),id);
+    @ApiOperation("增加消息")
+    public Integer insertCourse(@RequestBody Notice notice) {
+        return noticeMapper.insertNotice(notice);
     }
 
     //修改消息
     @PostMapping("/api/notice/update")
-    public Integer updateCourse(@RequestBody Map<String, Object> params){
-        String id = params.get("id").toString();
-        id = id.substring(0,id.length()-2);
-        String title = params.get("title").toString();
-        String time = params.get("time").toString();
-        String content = params.get("content").toString();
-        return noticeMapper.updateNotice(new Notice(title, time, content),id);
+    @ApiOperation("修改消息")
+    public Integer updateCourse(@RequestBody Notice notice){
+        int id = notice.getId();
+        return noticeMapper.updateNotice(notice,id);
     }
 
     @GetMapping("/api/notice/delete")
+    @ApiOperation("删除消息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "消息id",required = true,paramType = "query",dataType = "String"),
+    })
     public Integer deleteCourseByNo(@RequestParam(value = "id", defaultValue = "") String id){
         return noticeMapper.deleteNoticeById(id);
     }

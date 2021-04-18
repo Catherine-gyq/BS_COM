@@ -23,13 +23,13 @@ public interface NoticeMapper {
 
     // 添加社区消息(应该分类型的)
     @Insert("insert into Notice(title, publish_time, admin_id, content,type) VALUES" +
-            "(#{notice.title}, #{notice.publish_time}, #{id}, #{notice.content},'01')")
-    Integer insertNotice(Notice notice, @Param("id") String id);
+            "(#{title}, #{publish_time}, #{adminId}, #{content},'01')")
+    Integer insertNotice(Notice notice);
 
     // 更新社区消息
     @Update("update Notice set title = #{notice.title}, content=#{notice.content}" +
             "where notice_id=#{id}")
-    Integer updateNotice(Notice notice, @Param("id") String id);
+    Integer updateNotice(Notice notice, @Param("id") int id);
 
     // 通过id删除消息
     @Delete("delete from Notice where notice_id=#{id}")

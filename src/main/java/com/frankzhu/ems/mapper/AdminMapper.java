@@ -31,8 +31,8 @@ public interface AdminMapper {
     Integer insertAdmin(Admin admin);
 
     // 更新管理员信息
-    @Update("update Admin set admin_name=#{resident.name}, admin_sex=#{resident.sex},"+
-            " admin_tele=#{resident.tele},mailBox=#{mailBox}， dateOfBirth=#{resident.dateOfBirth}, where admin_id=#{id}")
+    @Update("update Admin set admin_name=#{admin.name}, admin_sex=#{admin.sex},"+
+            " admin_tele=#{admin.tele},mailBox=#{admin.mailBox},dateOfBirth=#{admin.dateOfBirth} where admin_id=#{id}")
     Integer updateAdmin(@Param("id") int id, Admin admin);
 
     // 删除管理员

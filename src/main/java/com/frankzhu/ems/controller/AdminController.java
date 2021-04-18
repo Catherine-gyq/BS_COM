@@ -3,6 +3,7 @@ package com.frankzhu.ems.controller;
 import com.frankzhu.ems.mapper.AccountMapper;
 import com.frankzhu.ems.mapper.AdminMapper;
 import com.frankzhu.ems.model.Admin;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "管理员管理")
 @RestController
 public class AdminController {
 
@@ -63,23 +65,24 @@ public class AdminController {
 
     //删除该管理员
     @GetMapping("/api/admin/delete")
-    @ApiOperation("删除居民")
+    @ApiOperation("删除")
     @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String")
     public Integer deleteResidentByTele(@RequestParam(value = "tele", defaultValue = "") String tele){
-        return adminMapper.deleteAdminByTele(tele);
+        int temp = adminMapper.deleteAdminByTele(tele);
+        if (temp==1){
+            return accountMapper.deleteAccountByTele(tele);
+        }else{
+            return 0;
+        }
     }
 
     //  添加管理员
     @PostMapping("/api/admin/add")
-    @ApiOperation("添加居民")
+    @ApiOperation("添加管理员")
     public Integer insertResident(@RequestBody Admin admin) throws NoSuchAlgorithmException {
-//        String name = params.get("name").toString();
-//        String sex = params.get("sex").toString();
-//        String tele = params.get("tele").toString();
-//        String mailBox = params.get("mailBox").toString();
-//        String dateOfBirth = params.get("dateOfBirth").toString();
         String tele = admin.getTele();
-        accountMapper.addAccount(tele, md5(tele), "admin");
+        String identity = admin.getIdentity();
+        accountMapper.addAccount(tele, md5(tele),identity);
         return adminMapper.insertAdmin(admin);
     }
 
@@ -87,13 +90,6 @@ public class AdminController {
     @PostMapping("/api/admin/update")
     @ApiOperation("更新管理员信息")
     public Integer updateResident(@RequestBody Admin admin){
-//        String id = params.get("resident_id").toString();
-//        id = id.substring(0,id.length()-2);
-//        String name = params.get("name").toString();
-//        String sex = params.get("sex").toString();
-//        String tele = params.get("tele").toString();
-//        String mailBox = params.get("mailBox").toString();
-//        String dateOfBirth = params.get("dateOfBirth").toString();
         int id = admin.getId();
         return adminMapper.updateAdmin(id,admin);
     }

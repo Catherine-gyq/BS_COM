@@ -16,17 +16,21 @@ public class Admin {
     private String tele;
 
     @ApiModelProperty("邮箱")
-    private String mailbox;
+    private String mailBox;
 
     @ApiModelProperty("出生年月")
     private String dateOfBirth;
 
-    public Admin(String name, String sex, String tele,String mailbox,String dateOfBirth){
+    @ApiModelProperty("个人权限")
+    private String identity;
+
+    public Admin(String name, String sex, String tele,String mailBox,String dateOfBirth,String identity){
         this.name = name;
         this.sex = sex;
         this.tele = tele;
-        this.mailbox = mailbox;
+        this.mailBox = mailBox;
         this.dateOfBirth = dateOfBirth;
+        this.identity = identity;
     }
 
     public int getId() {
@@ -51,16 +55,22 @@ public class Admin {
     public void setTele(String tele){
         this.tele = tele == null ? null : tele.trim();
     }
-    public String getMailbox(){
-        return mailbox;
+    public String getMailBox(){
+        return mailBox;
     }
-    public void setMailbox(String mailbox){
-        this.mailbox = mailbox == null ? null : mailbox.trim();
+    public void setMailBox(String mailBox){
+        this.mailBox = mailBox == null ? null : mailBox.trim();
     }
     public String getDateOfBirth(){
         return dateOfBirth;
     }
     public void setDateOfBirth(String dateOfBirth){
         this.dateOfBirth = dateOfBirth == null ? null : dateOfBirth.trim();
+    }
+    public String getIdentity(){
+        return identity;
+    }
+    public void setIdentity(String identity){
+        this.identity = identity == null ? null : identity.trim();
     }
 }

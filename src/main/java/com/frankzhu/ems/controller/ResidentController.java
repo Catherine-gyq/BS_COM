@@ -80,7 +80,12 @@ public class ResidentController {
     @ApiOperation("删除居民")
     @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String")
     public Integer deleteResidentByTele(@RequestParam(value = "tele", defaultValue = "") String tele){
-        return residentMapper.deleteResidentByTele(tele);
+        int temp = residentMapper.deleteResidentByTele(tele);
+        if (temp==1){
+            return accountMapper.deleteAccountByTele(tele);
+        }else{
+            return 0;
+        }
     }
 
     //获取居民信息

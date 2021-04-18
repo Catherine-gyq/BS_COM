@@ -33,7 +33,7 @@ public interface AdminMapper {
     // 更新管理员信息
     @Update("update Admin set admin_name=#{resident.name}, admin_sex=#{resident.sex},"+
             " admin_tele=#{resident.tele},mailBox=#{mailBox}， dateOfBirth=#{resident.dateOfBirth}, where admin_id=#{id}")
-    Integer updateAdmin(@Param("id") String id, Admin admin);
+    Integer updateAdmin(@Param("id") int id, Admin admin);
 
     // 删除管理员
     @Delete("delete from Admin where admin_tele=#{tele}")

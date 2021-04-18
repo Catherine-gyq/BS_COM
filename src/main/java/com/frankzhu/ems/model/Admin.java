@@ -1,12 +1,24 @@
 package com.frankzhu.ems.model;
 
-public class Admin {
+import io.swagger.annotations.ApiModelProperty;
 
+public class Admin {
+    @ApiModelProperty("id")
     private int id;
+
+    @ApiModelProperty("姓名")
     private String name;
+
+    @ApiModelProperty("性别")
     private String sex;
+
+    @ApiModelProperty("电话")
     private String tele;
+
+    @ApiModelProperty("邮箱")
     private String mailbox;
+
+    @ApiModelProperty("出生年月")
     private String dateOfBirth;
 
     public Admin(String name, String sex, String tele,String mailbox,String dateOfBirth){
@@ -44,6 +56,9 @@ public class Admin {
     }
     public void setMailbox(String mailbox){
         this.mailbox = mailbox == null ? null : mailbox.trim();
+    }
+    public String getDateOfBirth(){
+        return dateOfBirth;
     }
     public void setDateOfBirth(String dateOfBirth){
         this.dateOfBirth = dateOfBirth == null ? null : dateOfBirth.trim();

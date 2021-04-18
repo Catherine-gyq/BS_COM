@@ -56,9 +56,6 @@ public class ResidentController {
     }
 
 
-
-
-
     //    添加居民
     @PostMapping("/api/resident/add")
     @ApiOperation("添加居民")

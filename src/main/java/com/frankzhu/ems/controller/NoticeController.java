@@ -25,7 +25,6 @@ public class NoticeController {
     }
 
     // 获取所有消息 应该加上消息类型
-    // 有些是非必须属性
     @PostMapping("/api/notice/all")
     @ApiOperation("获取所有的社区消息")
     public Map<String, Object> findAllNotice(@RequestBody Map<String, Object> params){
@@ -44,8 +43,6 @@ public class NoticeController {
         }
         String pageSize1 = params.get("pageSize").toString();
         String currentPage1 = params.get("currentPage").toString();
-//        System.out.println(pageSize1);
-//        System.out.println(currentPage1);
 
 //        pageSize1 = pageSize1.substring(0,pageSize1.length()-2);
 //        currentPage1 = currentPage1.substring(0,currentPage1.length()-2);

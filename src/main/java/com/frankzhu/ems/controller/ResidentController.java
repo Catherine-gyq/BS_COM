@@ -38,8 +38,8 @@ public class ResidentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String"),
             @ApiImplicitParam(name = "name",value = "姓名",required = true,paramType = "query",dataType = "String"),
-            @ApiImplicitParam(name = "pageSize",value = "单页数量",required = true,paramType = "query",dataType = "String"),
-            @ApiImplicitParam(name = "currentPage",value = "当前页",required = true,paramType = "query",dataType = "String")
+            @ApiImplicitParam(name = "pageSize",value = "单页数量",required = true,paramType = "query",dataType = "int"),
+            @ApiImplicitParam(name = "currentPage",value = "当前页",required = true,paramType = "query",dataType = "int")
     })
     public Map<String, Object> findAllResident(
             @RequestParam(value = "usr_tele", defaultValue = "") String usr_tele,

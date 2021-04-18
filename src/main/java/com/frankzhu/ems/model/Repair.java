@@ -1,13 +1,28 @@
 package com.frankzhu.ems.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class Repair {
 
+    @ApiModelProperty("id")
     private String id;
+
+    @ApiModelProperty("预约时间")
     private String repair_time;
+
+    @ApiModelProperty("用户id")
     private String resident_id;
+
+    @ApiModelProperty("管理员id")
     private String admin_id;
+
+    @ApiModelProperty("维修地点")
     private String repair_address;
+
+    @ApiModelProperty("维修内容")
     private String repair_content;
+
+    @ApiModelProperty("审批状态")
     private int status;
 
     public Repair(String repair_time, String resident_id,String repair_address,String repair_content,int status){
@@ -47,5 +62,5 @@ public class Repair {
     public String getRepair_content(){return repair_content;}
     public void setRepair_content(){ this.repair_content = repair_content == null ? null : repair_content.trim(); }
     public int getStatus(){return status;}
-//    public void setStatus(){ this.status = status == null ? null : status.trim(); }
+    public void setStatus(){ this.status = status;}
 }

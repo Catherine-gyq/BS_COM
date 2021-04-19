@@ -12,7 +12,7 @@ import java.util.List;
 public interface AdminMapper {
 
     //获取管理员信息
-    @Select("select admin_id,admin_name from Admin where admin_tele=#{tele}")
+    @Select("select * from Admin where admin_tele=#{tele}")
     List<Map<String, Object>> GetAdmin(@Param("tele") String tele);
 
     //管理员获取管理员的信息用于管理

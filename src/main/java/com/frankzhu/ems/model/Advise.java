@@ -1,12 +1,25 @@
 package com.frankzhu.ems.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class Advise {
 
+    @ApiModelProperty(value = "id",name="id",required=false)
     private String id;
+
+    @ApiModelProperty(value = "发表时间",name="dateTime",required=false)
     private String datetime;
+
+    @ApiModelProperty(value = "用户id",name="dateTime",required=false)
     private String resident_id;
+
+    @ApiModelProperty("意见标题")
     private String box_title;
+
+    @ApiModelProperty("意见内容")
     private String box_content;
+
+    @ApiModelProperty("状态")
     private String status;
 
     public Advise(String datetime, String resident_id, String box_title, String box_content, String status){

@@ -37,8 +37,6 @@ public interface RepairMapper {
     @Select("select count(*) from Repair as R  where #{startTime}< repair_time and #{endTime}>repair_time and repair_status =#{status}")
     Integer findAllRepairTotalNum(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("status") String status);
 
-
-
     //  取消维修预约
     @Delete("delete from Repair where repair_id = #{repair_id}")
     Integer deleteRepair(@Param("repair_id") String repair_id);

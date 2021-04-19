@@ -2,6 +2,10 @@ package com.frankzhu.ems.controller;
 
 import com.frankzhu.ems.mapper.AdviseMapper;
 import com.frankzhu.ems.model.Advise;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "意见箱管理")
 @RestController
 public class AdviseController {
 
@@ -22,57 +27,44 @@ public class AdviseController {
 
     //获取意见箱中所有的意见信息
     @PostMapping("/api/advise/all")
+    @ApiOperation("获取意见箱中所有意见")
     public Map<String, Object> findAllAdvise(@RequestBody Map<String, Object> params){
+        //参数：pageSize currentPage status
         String pageSize1 = params.get("pageSize").toString();
         String currentPage1 = params.get("currentPage").toString();
-        pageSize1 = pageSize1.substring(0,pageSize1.length()-2);
-        currentPage1 = currentPage1.substring(0,currentPage1.length()-2);
+        String status = params.get("status").toString();
         Integer pageSize = Integer.valueOf(pageSize1);
         Integer currentPage = Integer.valueOf(currentPage1);
         Integer allNum = pageSize*(currentPage-1);
-        List<Map<String, Object>> adviseInfo = adviseMapper.findAllAdvise(allNum,pageSize);
-        Integer totalNum = adviseMapper.findAdviseNum();
+        List<Map<String, Object>> adviseInfo = adviseMapper.findAllAdvise(allNum,pageSize,status);
+        Integer totalNum = adviseMapper.findAdviseNum(status);
         Map<String, Object> advise =new HashMap<String, Object>();
         advise.put("totalNum", totalNum);
-        advise.put("residentInfo",adviseInfo);
+        advise.put("adviseInfo",adviseInfo);
         return advise;
     }
 
 
-    //添加消息
+    //添加意见
     @PostMapping("/api/advise/add")
-    public Integer insertAdvice(@RequestBody Map<String, Object> params) {
-        String resident_id = params.get("resident_id").toString();
-        String datetime = params.get("date").toString();
-        String box_title = params.get("title").toString();
-        String box_content = params.get("content").toString();
-        String status = "待处理";
-        return adviseMapper.insertAdvice(new Advise(datetime, resident_id,box_title,box_content,status));
+    @ApiOperation("用户添加意见箱中意见")
+    public Integer insertAdvice(@RequestBody Advise advise) {
+        advise.setStatus("unchecked");
+        return adviseMapper.insertAdvice(advise);
     }
 
-//
-//    @PostMapping("/api/open/search")
-//    public List<Map<String, Object>> findAllOpenByMu(@RequestBody Map<String, Object> params){
-//        String term = params.get("term").toString();
-//        String tno = params.get("tno").toString();
-//        String tname = params.get("tname").toString();
-//        String cno = params.get("cno").toString();
-//        String cname = params.get("cname").toString();
-//        return openMapper.findAllOpenByMu(term, tno, tname, cno, cname);
-//    }
-
-//    @PostMapping("/api/open/update")
-//    public Integer updateOpen(@RequestBody Map<String, Object> params){
-//        String term = params.get("no").toString();
-//        boolean choice = params.get("choice").toString().equals("true");
-//        // 同步更新term表
-//        voteMapper.updateTerm(term, choice);
-//        return openMapper.updateOpen(term, choice);
-//    }
-
-//    @GetMapping("/api/open/delete")
-//    public Integer deleteOpenByNo(@RequestParam(value = "id", defaultValue = "") int id){
-//        return openMapper.deleteOpenByNo(id);
-//    }
+    //管理员改变消息状态
+    @GetMapping("/api/advise/changeStatus")
+    @ApiOperation("管理员改变消息状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "advise_id",value = "意见id",required = true,paramType = "query",dataType = "int"),
+            @ApiImplicitParam(name = "status",value = "意见状态",required = true,paramType = "query",dataType = "String")
+    })
+        public Integer changeAdviceStatus(
+                @RequestParam(value = "advise_id") int advise_id,
+                @RequestParam(value = "status", defaultValue = "") String status) {
+        System.out.println(advise_id);
+        return adviseMapper.changeStatus(advise_id,status);
+    }
 
 }

@@ -15,43 +15,21 @@ import java.util.Map;
 public interface AdviseMapper {
 
     //获取意见箱中所有建议
-    @Select("select box_id,box_time as date,box_title as title,box_content as content,box_status as status from Box limit #{pageSize} offset #{allNum}")
-    List<Map<String, Object>>findAllAdvise(@Param("allNum") int allNum,@Param("pageSize") int pageSize);
+    @Select("select advise_id,box_time as date,box_title as title,box_content as content,box_status as status,name as residentName from AdviseBox" +
+            " join Resident R on R.resident_id = AdviseBox.resident_id where box_status=#{status} limit #{pageSize} offset #{allNum} ")
+    List<Map<String, Object>>findAllAdvise(@Param("allNum") int allNum,@Param("pageSize") int pageSize,@Param("status") String status);
 
     // 获取意见箱中的建议数量
-    @Select("select count(*) from Box")
-    Integer findAdviseNum();
-
-
+    @Select("select count(*) from AdviseBox where box_status=#{status}")
+    Integer findAdviseNum(@Param("status") String status);
 
     //添加建议
-    @Insert("insert into Box(box_time, resident_id, box_title, box_content, box_status) VALUES"+
+    @Insert("insert into AdviseBox(box_time, resident_id, box_title, box_content, box_status) VALUES"+
             "(#{datetime}, #{resident_id}, #{box_title}, #{box_content}, #{status})")
     Integer insertAdvice(Advise advise);
 
-
-    // 模糊查询教师
-//    @Select("select t.no, t.name as name, t.sex, t.birthday, t.education, d.name as department, d.no as departmentID " +
-//            "from teacher as t join department as d on t.department=d.no " +
-//            "where t.no like concat('%',#{no},'%') and t.name like concat('%',#{name},'%');")
-//    List<Map<String, Object>> findAllTeacher(@Param("no") String no, @Param("name") String name);
-
-    // 根据院系查询教师
-//    @Select("select no, name from teacher where department=#{de}")
-//    List<Map<String, Object>> findTeacherByDe(@Param("de") String de);
-
-    // 添加教师
-//    @Insert("insert into teacher (no, name, sex, birthday, education, department) VALUES" +
-//            "(#{no}, #{name}, #{sex}, #{birthday}, #{education}, #{department})")
-//    Integer insertTeacher(Teacher teacher);
-
-    // 更新信息
-//    @Update("update teacher set name=#{name}, sex=#{sex}, birthday=#{birthday}, " +
-//            "department=#{department}, education=#{education} where no=#{no}")
-//    Integer updateTeacher(Teacher teacher);
-
-    // 删除教师
-//    @Delete("delete from teacher where no=#{no}")
-//    Integer deleteTeacherByNo(@Param("no") String no);
+    //改变建议的状态
+    @Insert("update AdviseBox set box_status=#{status} where advise_id=#{advise_id}")
+    Integer changeStatus(@Param("advise_id") int advise_id,@Param("status") String status);
 
 }

@@ -98,7 +98,6 @@ public class ResidentController {
     }
 
 
-
     // md5加密算法
     public String md5(String source) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");

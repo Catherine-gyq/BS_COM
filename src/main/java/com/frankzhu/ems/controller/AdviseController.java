@@ -25,7 +25,7 @@ public class AdviseController {
         this.adviseMapper = adviseMapper;
     }
 
-    //获取意见箱中所有的意见信息
+    //管理员获取意见箱中所有的意见信息
     @PostMapping("/api/advise/all")
     @ApiOperation("获取意见箱中所有意见")
     public Map<String, Object> findAllAdvise(@RequestBody Map<String, Object> params){
@@ -36,8 +36,29 @@ public class AdviseController {
         Integer pageSize = Integer.valueOf(pageSize1);
         Integer currentPage = Integer.valueOf(currentPage1);
         Integer allNum = pageSize*(currentPage-1);
-        List<Map<String, Object>> adviseInfo = adviseMapper.findAllAdvise(allNum,pageSize,status);
-        Integer totalNum = adviseMapper.findAdviseNum(status);
+        List<Map<String, Object>> adviseInfo = adviseMapper.adminFindAllAdvise(allNum,pageSize,status);
+        Integer totalNum = adviseMapper.adminFindAdviseNum(status);
+        Map<String, Object> advise =new HashMap<String, Object>();
+        advise.put("totalNum", totalNum);
+        advise.put("adviseInfo",adviseInfo);
+        return advise;
+    }
+    //用户获得意见箱中所有意见
+    @GetMapping("/api/advise/allInfo")
+    @ApiOperation("用户获取意见箱中所有意见")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "resident_id",value = "用户id",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "pageSize",value = "单页数量",required = true,paramType = "query",dataType = "int"),
+            @ApiImplicitParam(name = "currentPage",value = "当前页",required = true,paramType = "query",dataType = "int")
+    })
+//可以是自己的也可以是别人的（选项：自己的/所有人）
+    public Map<String, Object> findAllAdvise(
+            @RequestParam(value = "resident_id", defaultValue = "") String resident_id,
+            @RequestParam(value = "pageSize", defaultValue = "") Integer pageSize,
+            @RequestParam(value = "currentPage", defaultValue = "") Integer currentPage){
+        Integer allNum = pageSize*(currentPage-1);
+        List<Map<String, Object>> adviseInfo = adviseMapper.residentFindAllAdvise(allNum,pageSize,resident_id);
+        Integer totalNum = adviseMapper.residentFindAdviseNum(resident_id);
         Map<String, Object> advise =new HashMap<String, Object>();
         advise.put("totalNum", totalNum);
         advise.put("adviseInfo",adviseInfo);

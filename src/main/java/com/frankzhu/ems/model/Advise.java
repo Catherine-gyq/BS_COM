@@ -8,25 +8,25 @@ public class Advise {
     private String id;
 
     @ApiModelProperty(value = "发表时间",name="dateTime",required=false)
-    private String datetime;
+    private String dateTime;
 
-    @ApiModelProperty(value = "用户id",name="dateTime",required=false)
+    @ApiModelProperty(value = "用户id",name="resident_id",required=false)
     private String resident_id;
 
     @ApiModelProperty("意见标题")
-    private String box_title;
+    private String title;
 
     @ApiModelProperty("意见内容")
-    private String box_content;
+    private String content;
 
     @ApiModelProperty("状态")
     private String status;
 
-    public Advise(String datetime, String resident_id, String box_title, String box_content, String status){
-        this.datetime = datetime;
+    public Advise(String dateTime, String resident_id, String title, String content, String status){
+        this.dateTime = dateTime;
         this.resident_id = resident_id;
-        this.box_title = box_title;
-        this.box_content = box_content;
+        this.title = title;
+        this.content = content;
         this.status = status;
     }
 
@@ -36,11 +36,11 @@ public class Advise {
     public void setId(String id) {
         this.id = id;
     }
-    public String getDatetime() {
-        return datetime;
+    public String getDateTime() {
+        return dateTime;
     }
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
     public String getResident_id() {
         return resident_id;
@@ -48,17 +48,17 @@ public class Advise {
     public void setResident_id(String resident_id) {
         this.resident_id = resident_id;
     }
-    public String getBox_title() {
-        return box_title;
+    public String getTitle() {
+        return title;
     }
-    public void setBox_title(String box_title) {
-        this.box_title = box_title;
+    public void setTitle(String box_title) {
+        this.title = title;
     }
-    public String getBox_content() {
-        return box_content;
+    public String getContent() {
+        return content;
     }
-    public void setBox_content(String box_content) {
-        this.box_content = box_content;
+    public void setContent(String content) {
+        this.content = content;
     }
     public String getStatus() {
         return status;

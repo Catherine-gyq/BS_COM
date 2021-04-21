@@ -42,18 +42,13 @@ public class RepairController {
         int totalNum =  repairMapper.findRepairTotalNum(id);
         Map<String, Object> resident =new HashMap<String, Object>();
         resident.put("totalNum", totalNum);
-        resident.put("residentInfo",repairInformation);
+        resident.put("repairInfo",repairInformation);
         return resident;
     }
     // 增加预约
     @PostMapping("/api/repair/add")
     @ApiOperation("用户增加预约维修")
     public Integer insertRepair(@RequestBody Repair repair){
-//        String repair_time = params.get("date").toString();
-//        String resident_id = params.get("resident_id").toString();
-//        String repair_address = params.get("address").toString();
-//        String repair_content = params.get("content").toString();
-//        int status = 0;
         int status = repair.getStatus();
         System.out.println(status);
         return repairMapper.insertRepair(repair);
@@ -96,7 +91,7 @@ public class RepairController {
         List<Map<String, Object>> noticeInformation  = repairMapper.findAllRepairData(startTime,endTime,status,allNum,pageSize);
         Map<String, Object> repairs =new HashMap<String, Object>();
         repairs.put("totalNum", totalNum);
-        repairs.put("residentInfo",noticeInformation);
+        repairs.put("repairInfo",noticeInformation);
         return repairs;
     }
 

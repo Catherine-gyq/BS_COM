@@ -88,7 +88,7 @@ public class ResidentController {
         }
     }
 
-    //获取居民信息
+    //获取居民自己的信息
     @GetMapping("/api/resident/usr")
     @ApiOperation("获取居民信息")
     @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String")

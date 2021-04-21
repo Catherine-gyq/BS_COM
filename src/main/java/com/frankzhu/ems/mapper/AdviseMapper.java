@@ -14,22 +14,32 @@ import java.util.Map;
 @Repository
 public interface AdviseMapper {
 
-    //获取意见箱中所有建议
-    @Select("select advise_id,box_time as date,box_title as title,box_content as content,box_status as status,name as residentName from AdviseBox" +
-            " join Resident R on R.resident_id = AdviseBox.resident_id where box_status=#{status} limit #{pageSize} offset #{allNum} ")
-    List<Map<String, Object>>findAllAdvise(@Param("allNum") int allNum,@Param("pageSize") int pageSize,@Param("status") String status);
+    //管理员获取意见箱中所有建议
+    @Select("select advise_id,dateTime as date,title,content,status,name as residentName from AdviseBox" +
+            " join Resident R on R.resident_id = AdviseBox.resident_id where status=#{status} limit #{pageSize} offset #{allNum} ")
+    List<Map<String, Object>>adminFindAllAdvise(@Param("allNum") int allNum,@Param("pageSize") int pageSize,@Param("status") String status);
 
-    // 获取意见箱中的建议数量
-    @Select("select count(*) from AdviseBox where box_status=#{status}")
-    Integer findAdviseNum(@Param("status") String status);
+    //管理员获取意见箱中的建议数量
+    @Select("select count(*) from AdviseBox where status=#{status}")
+    Integer adminFindAdviseNum(@Param("status") String status);
+
+    //用户获取意见箱中所有意见
+    @Select("select advise_id,dateTime as date,title,content,status,name as residentName from AdviseBox" +
+            " join Resident R on R.resident_id = AdviseBox.resident_id where AdviseBox.resident_id=#{resident_id} limit #{pageSize} offset #{allNum}")
+    List<Map<String, Object>>residentFindAllAdvise(@Param("allNum") int allNum,@Param("pageSize") int pageSize,@Param("resident_id") String resident_id);
+
+
+    //用户获取意见箱中所有意见
+    @Select("select count(*) from AdviseBox where resident_id=#{resident_id}")
+    Integer residentFindAdviseNum(@Param("resident_id") String resident_id);
 
     //添加建议
-    @Insert("insert into AdviseBox(box_time, resident_id, box_title, box_content, box_status) VALUES"+
-            "(#{datetime}, #{resident_id}, #{box_title}, #{box_content}, #{status})")
+    @Insert("insert into AdviseBox(dateTime, resident_id, title, content, status) VALUES"+
+            "(#{dateTime}, #{resident_id}, #{title}, #{content}, #{status})")
     Integer insertAdvice(Advise advise);
 
     //改变建议的状态
-    @Insert("update AdviseBox set box_status=#{status} where advise_id=#{advise_id}")
+    @Insert("update AdviseBox set status=#{status} where advise_id=#{advise_id}")
     Integer changeStatus(@Param("advise_id") int advise_id,@Param("status") String status);
 
 }

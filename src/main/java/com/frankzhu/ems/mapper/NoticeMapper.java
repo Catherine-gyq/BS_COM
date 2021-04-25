@@ -16,7 +16,7 @@ public interface NoticeMapper {
     Integer findAllNoticeTotalNum(@Param("name") String name, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
     // 搜索所有消息(应该分类型的)
-    @Select("select N.notice_id as id, N.publish_time as time, N.title as title, content, A.admin_name as people,A.admin_id as admin_id, " +
+    @Select("select N.notice_id as id, N.publish_time as time, N.title as title, content, A.admin_name as people,A.admin_id as adminId, " +
             "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id " +
             "where #{startTime} < N.publish_time and #{endTime} > N.publish_time and N.title like concat('%',#{name},'%') limit #{pageSize} OFFSET #{allNum}")
     List<Map<String, Object>> findAllNoticeData(@Param("name") String name,@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("allNum") int allNum,@Param("pageSize") int pageSize);

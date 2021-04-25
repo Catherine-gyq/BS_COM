@@ -33,12 +33,22 @@ public class ActivityController {
 //        resident_id = resident_id.substring(0,resident_id.length()-2);
         return activityMapper.reserveActivity(new Activity(room_id,resident_id,usage,date,startTime,endTime,status));
     }
+   //住户获取所有活动预约（根据room分）
+    @GetMapping("api/activity/all")
+    @ApiOperation("获取所有活动预约")
+    public List<Map<String,Object>> residentFindAllActivity(){
+        return activityMapper.findAllActivity();
+    }
+
+
 //    //住户获取所有活动预约（根据room分）
 //    @GetMapping("api/activity/all")
 //    @ApiOperation("获取所有活动预约")
 //    public List<Map<String,Object>> residentFindAllActivity(){
-//        return activityMapper.findallActivity();
+//        return activityMapper.findAllActivity();
 //    }
+
+
 //
 //
 //    //管理员获取所有活动预约

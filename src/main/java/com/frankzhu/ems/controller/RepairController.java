@@ -45,12 +45,13 @@ public class RepairController {
         resident.put("repairInfo",repairInformation);
         return resident;
     }
+
     // 增加预约
     @PostMapping("/api/repair/add")
     @ApiOperation("用户增加预约维修")
     public Integer insertRepair(@RequestBody Repair repair){
-        int status = repair.getStatus();
-        System.out.println(status);
+//        int status = repair.getStatus();
+        repair.setStatus("unapproved");
         return repairMapper.insertRepair(repair);
     }
 
@@ -59,7 +60,6 @@ public class RepairController {
     @ApiOperation("用户取消维修预约")
     @ApiImplicitParam(name = "repair_id",value = "预约id",required = true,paramType = "query",dataType = "String")
     public Integer deleteRepair(@RequestParam(value ="repair_id", defaultValue = "") String repair_id){
-//        System.out.println("预约编号"+repair_id);
         return repairMapper.deleteRepair(repair_id);
     }
 
@@ -98,9 +98,16 @@ public class RepairController {
     //管理员将维修预约同意（暂时没有时间）
     @GetMapping("/api/repair/approve")
     @ApiOperation("用户获取所有维修消息")
-    @ApiImplicitParam(name = "repair_id",value = "维修id",required = true,paramType = "query",dataType = "String")
-    public Integer handleRepair(@RequestParam(value ="repair_id", defaultValue = "") String repair_id){
-        System.out.println("预约编号"+repair_id);
-        return repairMapper.approveRepair(repair_id);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "repair_id",value = "维修id",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "status",value = "状态",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "adminId",value = "管理员Id",required = true,paramType = "query",dataType = "int")
+    })
+       public Integer handleRepair(
+            @RequestParam(value ="repair_id", defaultValue = "") String repair_id,
+            @RequestParam(value ="status", defaultValue = "") String status,
+            @RequestParam(value ="adminId", defaultValue = "") int adminId){
+//        System.out.println("预约编号"+repair_id);
+        return repairMapper.approveRepair(repair_id,status,adminId);
     }
 }

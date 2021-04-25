@@ -23,9 +23,9 @@ public class Repair {
     private String repair_content;
 
     @ApiModelProperty("审批状态")
-    private int status;
+    private String status;
 
-    public Repair(String repair_time, String resident_id,String repair_address,String repair_content,int status){
+    public Repair(String repair_time, String resident_id,String repair_address,String repair_content,String status){
         this.repair_time = repair_time;
         this.resident_id = resident_id;
         this.repair_address = repair_address;
@@ -60,7 +60,7 @@ public class Repair {
         this.repair_address = repair_address == null ? null : repair_address.trim();
     }
     public String getRepair_content(){return repair_content;}
-    public void setRepair_content(){ this.repair_content = repair_content == null ? null : repair_content.trim(); }
-    public int getStatus(){return status;}
-    public void setStatus(){ this.status = status;}
+    public void setRepair_content(String repair_content){ this.repair_content = repair_content == null ? null : repair_content.trim(); }
+    public String getStatus(){return status;}
+    public void setStatus(String status){ this.status = status== null ? null : status.trim();}
 }

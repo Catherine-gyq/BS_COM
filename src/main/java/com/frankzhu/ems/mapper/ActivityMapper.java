@@ -21,7 +21,7 @@ public interface ActivityMapper {
     // 获取所有活动信息
     @Select("select activity_id, A.resident_id as resident_id ,room_usage,name as resident_name,date,startTime,endTime,status from Room join Activity A join Resident R on " +
             "A.resident_id = R.resident_id and Room.room_id = A.room_id")
-    List<Map<String,Object>> findallActivity();
+    List<Map<String,Object>> findAllActivity();
 
     // 取消活动预约
     @Delete("delete from Activity where activity_id = #{activity_id}")

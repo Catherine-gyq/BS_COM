@@ -53,7 +53,7 @@ public class NoticeController {
         List<Map<String, Object>> noticeInformation  = noticeMapper.findAllNoticeData(name,startTime,endTime,allNum,pageSize);
         Map<String, Object> notice =new HashMap<String, Object>();
         notice.put("totalNum", totalNum);
-        notice.put("residentInfo",noticeInformation);
+        notice.put("noticeInfo",noticeInformation);
         return notice;
     }
 

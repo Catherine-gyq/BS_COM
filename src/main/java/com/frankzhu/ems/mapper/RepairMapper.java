@@ -42,14 +42,13 @@ public interface RepairMapper {
     Integer deleteRepair(@Param("repair_id") String repair_id);
 
     // 管理员同意预约内容
-    @Select("update Repair set repair_status = 1 where repair_id=#{id}")
-    Integer approveRepair(@Param("id") String id);
-    // update
-//    @Update("update elective set grade=#{grade} where id=#{id}")
-//    Integer updateElective(Repair repair);
+    @Select("update Repair set repair_status =#{status},admin_id=#{adminId} where repair_id=#{id}")
+    Integer approveRepair(@Param("id") String id,@Param("status") String status,@Param("adminId") int adminId);
 
-    // delete
-//    @Delete("delete from elective where student=#{sno} and open=#{cno}")
-//    Integer deleteElectiveByNo(@Param("sno") String sno, @Param("cno") String cno);
 
 }
+
+
+
+
+

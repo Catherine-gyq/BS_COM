@@ -45,35 +45,28 @@ public class AccountController {
     // 用于用户自己修改密码
     @PostMapping("/api/account/updatePwd")
     @ApiOperation("修改密码")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name",value = "用户名（即电话号码）",required = true,paramType = "query",dataType = "String"),
-            @ApiImplicitParam(name = "oldPassword",value = "原来的密码",required = true,paramType = "query",dataType = "String"),
-            @ApiImplicitParam(name = "newPassword",value = "新的密码",required = true,paramType = "query",dataType = "String"),
-            @ApiImplicitParam(name = "identity",value = "用户身份",required = true,paramType = "query",dataType = "String"),
-    })
-    public Integer updatePwd(@RequestBody Map<String, Object> params) throws NoSuchAlgorithmException {
-        String name = params.get("name").toString();
-        String oldPassword = params.get("oldPassword").toString();
-        String newPassword = params.get("newPassword").toString();
-        String identity = params.get("identity").toString();
-        Map<String, Object> ifAccount = accountMapper.findAccountPass(name, md5(oldPassword), identity);
-        int result = 0;
-        if (ifAccount == null){
-            result = 0;
-        }else{
-            result = accountMapper.resetPassword(name, md5(newPassword),identity);
-        }
-        return result;
+    public Integer updatePwd(@RequestBody Account account) throws NoSuchAlgorithmException {
+        String name = account.getUsername();
+        String newPassword = account.getPassword();
+        String identity  = account.getIdentity();
+//        String name = params.get("name").toString();
+//        String newPassword = params.get("newPassword").toString();
+//        String identity = params.get("identity").toString();
+//        Map<String, Object> ifAccount = accountMapper.findAccountPass(name, md5(oldPassword), identity);
+//        int result = 0;
+//        if (ifAccount == null){
+//            result = 0;
+//        }else{
+//            result = accountMapper.resetPassword(name, md5(newPassword),identity);
+//        }
+//        return result;
+        return accountMapper.resetPassword(name, md5(newPassword),identity);
     }
 
     // 用于用户的登录
     @PostMapping("/api/account/login")
     @ApiOperation("用户登录")
     public Integer login(@RequestBody Account account) throws NoSuchAlgorithmException {
-//        String name = params.get("username").toString();
-//        String password = params.get("password").toString();
-//        String identity = params.get("identity").toString();
-
         String name = account.getUsername();
         String password = account.getPassword();
         String identity = account.getIdentity();
@@ -112,7 +105,6 @@ public class AccountController {
             allInfo =  accountMapper.getAdminInformation(username,identity);
         }
         return allInfo;
-//        return accountMapper.getAllInformation(username,identity);
     }
 
 

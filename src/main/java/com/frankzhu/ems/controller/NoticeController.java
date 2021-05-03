@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,11 +44,21 @@ public class NoticeController {
         }
         String pageSize1 = params.get("pageSize").toString();
         String currentPage1 = params.get("currentPage").toString();
+        String type = params.get("type").toString();
         Integer pageSize = Integer.valueOf(pageSize1);
         Integer currentPage = Integer.valueOf(currentPage1);
         Integer allNum = pageSize*(currentPage-1);
-        int totalNum =  noticeMapper.findAllNoticeTotalNum(name,startTime,endTime);
-        List<Map<String, Object>> noticeInformation  = noticeMapper.findAllNoticeData(name,startTime,endTime,allNum,pageSize);
+        int totalNum = 0;
+        List<Map<String, Object>> noticeInformation = new ArrayList();
+
+        //如果没有选择类型
+        if(type.equals("allType")){
+            totalNum = noticeMapper.findNoticeNum(name,startTime,endTime);
+            noticeInformation = noticeMapper.findNoticeData(name,startTime,endTime,allNum,pageSize);
+        }else{
+            totalNum =  noticeMapper.findNoticeNumByType(name,type,startTime,endTime);
+            noticeInformation  = noticeMapper.findNoticeDataByType(name,type,startTime,endTime,allNum,pageSize);
+        }
         Map<String, Object> notice =new HashMap<String, Object>();
         notice.put("totalNum", totalNum);
         notice.put("noticeInfo",noticeInformation);

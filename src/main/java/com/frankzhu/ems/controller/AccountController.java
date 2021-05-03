@@ -49,17 +49,6 @@ public class AccountController {
         String name = account.getUsername();
         String newPassword = account.getPassword();
         String identity  = account.getIdentity();
-//        String name = params.get("name").toString();
-//        String newPassword = params.get("newPassword").toString();
-//        String identity = params.get("identity").toString();
-//        Map<String, Object> ifAccount = accountMapper.findAccountPass(name, md5(oldPassword), identity);
-//        int result = 0;
-//        if (ifAccount == null){
-//            result = 0;
-//        }else{
-//            result = accountMapper.resetPassword(name, md5(newPassword),identity);
-//        }
-//        return result;
         return accountMapper.resetPassword(name, md5(newPassword),identity);
     }
 

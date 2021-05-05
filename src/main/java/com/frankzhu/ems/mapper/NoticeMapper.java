@@ -15,8 +15,8 @@ public interface NoticeMapper {
             "and type=#{type} and #{endTime} > N.publish_time and N.title like concat('%',#{name},'%')")
     Integer findNoticeNumByType(@Param("name") String name,@Param("type") String type, @Param("startTime") String startTime, @Param("endTime") String endTime);
 
-    // 搜索所有消息(分类型的)
-    @Select("select N.notice_id as id, N.publish_time as time, N.title as title, content, A.admin_name as people,A.admin_id as adminId, " +
+    // 获取所有消息(分类型的)
+    @Select("select N.notice_id as id, N.publish_time as time, N.title as title, abstracts, content,community, A.admin_name as people,A.admin_id as adminId, " +
             "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id " +
             "where #{startTime} < N.publish_time and #{endTime} > N.publish_time and N.title like concat('%',#{name},'%') " +
             "and N.type=#{type}  order by N.publish_time desc limit #{pageSize} OFFSET #{allNum} ")
@@ -28,7 +28,7 @@ public interface NoticeMapper {
     Integer findNoticeNum(@Param("name") String name,@Param("startTime") String startTime, @Param("endTime") String endTime);
 
     // 获取所有消息（不分类型）
-    @Select("select N.notice_id as id, N.publish_time as time, N.title as title, content, A.admin_name as people,A.admin_id as adminId, " +
+    @Select("select N.notice_id as id, N.publish_time as time, N.title as title, content, abstracts, A.admin_name as people,A.admin_id as adminId, " +
             "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id " +
             "where #{startTime} < N.publish_time and #{endTime} > N.publish_time and N.title like concat('%',#{name},'%') " +
             "order by N.publish_time desc limit #{pageSize} OFFSET #{allNum} ")
@@ -47,5 +47,10 @@ public interface NoticeMapper {
     // 通过id删除消息
     @Delete("delete from Notice where notice_id=#{id}")
     Integer deleteNoticeById(@Param("id") String id);
+
+    // 通过id获取消息的所有内容
+    @Select("select N.notice_id as id, N.publish_time as time,abstracts,N.title as title, content, A.admin_name as people,A.admin_id as adminId,\n" +
+            "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id where notice_id = #{id}")
+    Map<String, Object> NoticeDataById(@Param("id") String id);
 
 }

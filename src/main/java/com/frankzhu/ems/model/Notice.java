@@ -13,16 +13,20 @@ public class Notice {
     @ApiModelProperty("发布时间")
     private String publish_time;
 
+    @ApiModelProperty("内容梗概")
+    private String abstracts;
+
     @ApiModelProperty("具体内容")
     private String content;
 
     @ApiModelProperty("管理员id")
     private String adminId;
 
-    public Notice(String title, String publish_time, String content,String adminId){
+    public Notice(String title, String publish_time,String abstracts,String content,String adminId){
         this.title = title;
         this.publish_time = publish_time;
         this.content = content;
+        this.abstracts = abstracts;
         this.adminId = adminId;
     }
 
@@ -43,6 +47,12 @@ public class Notice {
     }
     public void setPublish_time(String publish_time) {
         this.publish_time = publish_time;
+    }
+    public String getAbstracts(){
+        return abstracts;
+    }
+    public void setAbstracts(String abstracts){
+        this.abstracts = abstracts == null ? null : abstracts.trim();
     }
     public String getContent(){
         return content;

@@ -65,29 +65,39 @@ public class NoticeController {
         return notice;
     }
 
+    // 添加消息
     @PostMapping("/api/notice/add")
     @ApiOperation("增加消息")
-    public Integer insertCourse(@RequestBody Notice notice) {
+    public Integer insertNotice(@RequestBody Notice notice) {
         return noticeMapper.insertNotice(notice);
     }
 
     //修改消息
     @PostMapping("/api/notice/update")
     @ApiOperation("修改消息")
-    public Integer updateCourse(@RequestBody Notice notice){
+    public Integer updateNotice(@RequestBody Notice notice){
         int id = notice.getId();
         return noticeMapper.updateNotice(notice,id);
     }
 
+    //删除消息
     @GetMapping("/api/notice/delete")
     @ApiOperation("删除消息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "消息id",required = true,paramType = "query",dataType = "String"),
     })
-    public Integer deleteCourseByNo(@RequestParam(value = "id", defaultValue = "") String id){
+    public Integer deleteNoticeByNo(@RequestParam(value = "id", defaultValue = "") String id){
         return noticeMapper.deleteNoticeById(id);
     }
 
-
+    // 根据消息的id来查询消息的所有内容
+    @GetMapping("/api/notice/detail")
+    @ApiOperation("删除消息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "消息id",required = true,paramType = "query",dataType = "String"),
+    })
+    public Map<String, Object> chooseNoticeByNo(@RequestParam(value = "id", defaultValue = "") String id){
+        return noticeMapper.NoticeDataById(id);
+    }
 
 }

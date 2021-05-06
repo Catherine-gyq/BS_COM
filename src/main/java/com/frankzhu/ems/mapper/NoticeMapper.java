@@ -53,4 +53,5 @@ public interface NoticeMapper {
             "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id where notice_id = #{id}")
     Map<String, Object> NoticeDataById(@Param("id") String id);
 
+
 }

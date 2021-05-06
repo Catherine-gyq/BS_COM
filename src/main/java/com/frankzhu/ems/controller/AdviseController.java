@@ -88,4 +88,35 @@ public class AdviseController {
         return adviseMapper.changeStatus(advise_id,status);
     }
 
+    //通过id获取单条意见的消息
+    @GetMapping("/api/advise/detail")
+    @ApiOperation("通过意见id获取的内容")
+    @ApiImplicitParam(name = "adviseId",value = "adviseId",required = true,paramType = "query",dataType = "String")
+    public Map<String, Object> findAdviseById(
+            @RequestParam(value = "adviseId", defaultValue = "") String adviseId){
+        return adviseMapper.AdviseDataById(adviseId);
+    }
+
+    //向意见箱中的意见填写反馈意见
+    @GetMapping("/api/advise/feedback")
+    @ApiOperation("管理员向意见填写反馈意见")
+    @ApiImplicitParam(name = "noticeId",value = "noticeId",required = true,paramType = "query",dataType = "String")
+    public Map<String, Object> adviseFeedback(
+            @RequestParam(value = "adviseId", defaultValue = "") String adviseId){
+        return adviseMapper.AdviseDataById(adviseId);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

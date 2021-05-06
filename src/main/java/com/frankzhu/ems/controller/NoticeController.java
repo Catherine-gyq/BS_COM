@@ -93,9 +93,7 @@ public class NoticeController {
     // 根据消息的id来查询消息的所有内容
     @GetMapping("/api/notice/detail")
     @ApiOperation("删除消息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "消息id",required = true,paramType = "query",dataType = "String"),
-    })
+    @ApiImplicitParam(name = "id",value = "消息id",required = true,paramType = "query",dataType = "String")
     public Map<String, Object> chooseNoticeByNo(@RequestParam(value = "id", defaultValue = "") String id){
         return noticeMapper.NoticeDataById(id);
     }

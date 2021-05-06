@@ -42,4 +42,13 @@ public interface AdviseMapper {
     @Insert("update AdviseBox set status=#{status} where advise_id=#{advise_id}")
     Integer changeStatus(@Param("advise_id") int advise_id,@Param("status") String status);
 
+    // 通过id获取意见的所有内容
+    @Select("select N.notice_id as id, N.publish_time as time,type,abstracts,N.title as title, content, A.admin_name as adminName,A.admin_id as adminId,\n" +
+            "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id where notice_id = #{id}")
+    Map<String, Object> AdviseDataById(@Param("adviseId") String adviseId);
+
+    // 对意见进行反馈
+    @Select("select N.notice_id as id, N.publish_time as time,type,abstracts,N.title as title, content, A.admin_name as adminName,A.admin_id as adminId,\n" +
+            "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id where notice_id = #{id}")
+    Map<String, Object> updateNotice(@Param("id") String id);
 }

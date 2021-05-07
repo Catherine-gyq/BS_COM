@@ -97,13 +97,19 @@ public class AdviseController {
         return adviseMapper.AdviseDataById(adviseId);
     }
 
-    //向意见箱中的意见填写反馈意见
+    //向意见箱中的意见填写反馈意见(不知道)
     @GetMapping("/api/advise/feedback")
     @ApiOperation("管理员向意见填写反馈意见")
-    @ApiImplicitParam(name = "noticeId",value = "noticeId",required = true,paramType = "query",dataType = "String")
-    public Map<String, Object> adviseFeedback(
-            @RequestParam(value = "adviseId", defaultValue = "") String adviseId){
-        return adviseMapper.AdviseDataById(adviseId);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "adviseId",value = "意见id",required = true,paramType = "query",dataType = "int"),
+            @ApiImplicitParam(name = "adminId",value = "管理员id",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "feedback",value = "反馈意见",required = true,paramType = "query",dataType = "String")
+    })
+    public Integer adviseFeedback(
+            @RequestParam(value = "adviseId", defaultValue = "") String adviseId,
+            @RequestParam(value = "adminId", defaultValue = "") String adminId,
+            @RequestParam(value = "feedback", defaultValue = "") String feedback){
+        return adviseMapper.updateNotice(adviseId,adminId,feedback);
     }
 
 }

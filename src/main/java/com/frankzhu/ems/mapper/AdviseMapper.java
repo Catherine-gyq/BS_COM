@@ -6,6 +6,7 @@ import org.aopalliance.aop.Advice;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,12 +44,12 @@ public interface AdviseMapper {
     Integer changeStatus(@Param("advise_id") int advise_id,@Param("status") String status);
 
     // 通过id获取意见的所有内容
-    @Select("select N.notice_id as id, N.publish_time as time,type,abstracts,N.title as title, content, A.admin_name as adminName,A.admin_id as adminId,\n" +
-            "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id where notice_id = #{id}")
+    @Select("select advise_id,dateTime as date,title,content,feedback,admin_name,status,name as residentName from AdviseBox " +
+            "join Resident R on R.resident_id = AdviseBox.resident_id join Admin A on AdviseBox.admin_id = A.admin_id " +
+            "where AdviseBox.advise_id = #{adviseId}")
     Map<String, Object> AdviseDataById(@Param("adviseId") String adviseId);
 
     // 对意见进行反馈
-    @Select("select N.notice_id as id, N.publish_time as time,type,abstracts,N.title as title, content, A.admin_name as adminName,A.admin_id as adminId,\n" +
-            "A.admin_tele as tele from Notice as N join Admin as A on N.admin_id = A.admin_id where notice_id = #{id}")
-    Map<String, Object> updateNotice(@Param("id") String id);
+    @Update("update AdviseBox set admin_id = #{adminId} and feedback = #{feedback} where advise_id = #{adviseId}")
+    Integer updateNotice(@Param("adviseId") String adviseId,@Param("adminId") String adminId,@Param("feedback") String feedback);
 }

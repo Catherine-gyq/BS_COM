@@ -100,11 +100,6 @@ public class AdviseController {
     //向意见箱中的意见填写反馈意见(不知道)
     @PostMapping("/api/advise/feedback")
     @ApiOperation("管理员向意见填写反馈意见")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "adviseId",value = "意见id",required = true,paramType = "query",dataType = "int"),
-//            @ApiImplicitParam(name = "adminId",value = "管理员id",required = true,paramType = "query",dataType = "String"),
-//            @ApiImplicitParam(name = "feedback",value = "反馈意见",required = true,paramType = "query",dataType = "String")
-//    })
     public Integer adviseFeedback(
             @RequestBody Map<String, Object> params){
         String adviseId = params.get("adviseId").toString();

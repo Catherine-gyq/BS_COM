@@ -16,8 +16,9 @@ import java.util.Map;
 public interface AdviseMapper {
 
     //管理员获取意见箱中所有建议
-    @Select("select advise_id,dateTime as date,title,content,status,name as residentName from AdviseBox" +
-            " join Resident R on R.resident_id = AdviseBox.resident_id where status=#{status} limit #{pageSize} offset #{allNum} ")
+    @Select("select advise_id,dateTime as date,title,content,status,feedback,name as residentName," +
+            "admin_name as adminName from AdviseBox join Resident R on R.resident_id = AdviseBox.resident_id " +
+            "left join Admin A on AdviseBox.admin_id = A.admin_id where status=#{status} limit #{pageSize} offset #{allNum} ")
     List<Map<String, Object>>adminFindAllAdvise(@Param("allNum") int allNum,@Param("pageSize") int pageSize,@Param("status") String status);
 
     //管理员获取意见箱中的建议数量
@@ -25,10 +26,10 @@ public interface AdviseMapper {
     Integer adminFindAdviseNum(@Param("status") String status);
 
     //用户获取意见箱中所有意见
-    @Select("select advise_id,dateTime as date,title,content,status,name as residentName from AdviseBox" +
-            " join Resident R on R.resident_id = AdviseBox.resident_id where AdviseBox.resident_id=#{resident_id} limit #{pageSize} offset #{allNum}")
+    @Select("select advise_id,dateTime as date,title,content,status,feedback,name as residentName, " +
+            "admin_name as adminName from AdviseBox join Resident R on R.resident_id = AdviseBox.resident_id " +
+            "left join Admin A on AdviseBox.admin_id = A.admin_id where AdviseBox.resident_id=#{resident_id} limit #{pageSize} offset #{allNum}")
     List<Map<String, Object>>residentFindAllAdvise(@Param("allNum") int allNum,@Param("pageSize") int pageSize,@Param("resident_id") String resident_id);
-
 
     //用户获取意见箱中所有意见
     @Select("select count(*) from AdviseBox where resident_id=#{resident_id}")
@@ -50,6 +51,6 @@ public interface AdviseMapper {
     Map<String, Object> AdviseDataById(@Param("adviseId") String adviseId);
 
     // 对意见进行反馈
-    @Update("update AdviseBox set admin_id = #{adminId} and feedback = #{feedback} where advise_id = #{adviseId}")
+    @Update("update AdviseBox set admin_id = #{adminId}, feedback = #{feedback} where advise_id = #{adviseId}")
     Integer updateNotice(@Param("adviseId") String adviseId,@Param("adminId") String adminId,@Param("feedback") String feedback);
 }

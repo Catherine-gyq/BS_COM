@@ -45,7 +45,7 @@ public interface AdviseMapper {
 
     // 通过id获取意见的所有内容
     @Select("select advise_id,dateTime as date,title,content,feedback,admin_name,status,name as residentName from AdviseBox " +
-            "join Resident R on R.resident_id = AdviseBox.resident_id join Admin A on AdviseBox.admin_id = A.admin_id " +
+            "join Resident R on R.resident_id = AdviseBox.resident_id left join Admin A on AdviseBox.admin_id = A.admin_id " +
             "where AdviseBox.advise_id = #{adviseId}")
     Map<String, Object> AdviseDataById(@Param("adviseId") String adviseId);
 

@@ -7,12 +7,14 @@ public class Room {
     //其实是房间能容纳的人的数量
     private String num;
     private String address;
+    private String description;
 
-    public Room(String name, String picture, String num, String address){
+    public Room(String name, String picture, String num, String address,String description){
         this.usage = name;
         this.picture = picture;
         this.num = num;
         this.address = address;
+        this.description = description;
     }
 
     public int getId() {
@@ -42,5 +44,11 @@ public class Room {
     }
     public void setAddress(String address){
         this.address = address == null ? null : address.trim();
+    }
+    public String getDescription(){
+        return description;
+    }
+    public void setDescription(String description){
+        this.description = description == null ? null : description.trim();
     }
 }

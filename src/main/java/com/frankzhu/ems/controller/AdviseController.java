@@ -84,7 +84,6 @@ public class AdviseController {
         public Integer changeAdviceStatus(
                 @RequestParam(value = "advise_id") int advise_id,
                 @RequestParam(value = "status", defaultValue = "") String status) {
-//        System.out.println(advise_id);
         return adviseMapper.changeStatus(advise_id,status);
     }
 

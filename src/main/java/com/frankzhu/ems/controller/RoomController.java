@@ -27,8 +27,8 @@ public class RoomController {
 //    获取所有的房间信息
     @GetMapping("api/room/all")
     public Map<String, Object> FindAllRoom(
-            @RequestParam(value = "pageSize") Integer pageSize,
-            @RequestParam(value = "currentPage") Integer currentPage
+            @RequestParam(value = "pageSize",required = false) Integer pageSize,
+            @RequestParam(value = "currentPage",required = false) Integer currentPage
     ){
 
         System.out.println(pageSize);

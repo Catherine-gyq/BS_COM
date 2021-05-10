@@ -9,7 +9,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -74,6 +77,26 @@ public class AdminController {
         }else{
             return 0;
         }
+    }
+
+    //添加头像图片
+    @PostMapping("/api/admin/upload")
+    @ApiOperation("添加头像图片")
+//    @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String")
+    public Integer uploadAvatar(@RequestParam(required = false) MultipartFile image,
+                                HttpServletRequest request){
+        String basePath = request.getServletContext().getRealPath("Lawrence/images/");
+        System.out.println(basePath);
+        File directory = new File(basePath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        try {
+            image.transferTo(new File(basePath + image.getName()));
+        } catch (Exception e) {
+
+        }
+        return 1;
     }
 
     //  添加管理员

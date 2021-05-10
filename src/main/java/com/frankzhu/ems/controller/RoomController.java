@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +26,39 @@ public class RoomController {
 
 //    获取所有的房间信息
     @GetMapping("api/room/all")
-    public List<Map<String, Object>> FindAllRoom(){
-        return roomMapper.findAllRoom();
+    public Map<String, Object> FindAllRoom(
+            @RequestParam(value = "pageSize") Integer pageSize,
+            @RequestParam(value = "currentPage") Integer currentPage
+    ){
+
+        System.out.println(pageSize);
+        if (pageSize==null){
+            List<Map<String, Object>> roomInfo = roomMapper.findAllRoom();
+            Integer totalNum = roomMapper.findRoomNum();
+            Map<String, Object> room =new HashMap<String, Object>();
+            room.put("totalNum", totalNum);
+            room.put("roomInfo",roomInfo);
+            return room;
+        }
+        else{
+            Integer allNum = pageSize*(currentPage-1);
+            List<Map<String, Object>> roomInfo = roomMapper.findAllRoomByPage(allNum,pageSize);
+            Integer totalNum = roomMapper.findRoomNum();
+            Map<String, Object> room =new HashMap<String, Object>();
+            room.put("totalNum", totalNum);
+            room.put("roomInfo",roomInfo);
+            return room;
+        }
     }
+
+//    通过id获取房间的所有信息
+    @GetMapping("api/room/detail")
+    public Map<String, Object> FindAllRoom(
+            @RequestParam(value = "roomId") Integer roomId
+    ){
+        return roomMapper.roomDetailById(roomId);
+    }
+
 
 //    删除该房间
     @GetMapping("/api/room/delete")
@@ -38,8 +69,16 @@ public class RoomController {
     public Integer deleteRoomByNo(@RequestParam(value = "roomId", defaultValue = "") String roomId){
         return roomMapper.deleteRoomById(roomId);
     }
-//   根据id查询房间的信息
 
+
+
+
+//    @GetMapping("/api/room/delete")
+//    @ApiOperation("删除房间")
+//    public List<Map<String, Object>> deleteRoomByNo(){
+//        String test = "select * from Room";
+//        return roomMapper.deleteRoomById(test);
+//    }
 
 //  添加房间信息
     @PostMapping("/api/room/add")

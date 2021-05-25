@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -83,19 +84,24 @@ public class AdminController {
     @PostMapping("/api/admin/upload")
     @ApiOperation("添加头像图片")
 //    @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String")
-    public Integer uploadAvatar(@RequestParam(required = false) MultipartFile image,
-                                HttpServletRequest request){
-        String basePath = request.getServletContext().getRealPath("Lawrence/images/");
-        System.out.println(basePath);
-        File directory = new File(basePath);
+    public Integer uploadAvatar(@RequestParam(required = true) MultipartFile image,
+                                HttpServletRequest request) throws IOException {
+        String basePath = request.getServletContext().getRealPath("upload/");
+//        System.out.println(basePath);
+//        在这里把路径设置为电脑中的路径
+        System.out.println(basePath+image.getName());
+        File directory = new File(basePath,image.getName());
         if (!directory.exists()) {
             directory.mkdirs();
         }
         try {
-            image.transferTo(new File(basePath + image.getName()));
+            image.transferTo(directory);
         } catch (Exception e) {
-
+            System.out.println(e);
         }
+
+        String dir = directory.getCanonicalPath();
+        System.out.println(dir);
         return 1;
     }
 

@@ -71,15 +71,6 @@ public class RoomController {
     }
 
 
-
-
-//    @GetMapping("/api/room/delete")
-//    @ApiOperation("删除房间")
-//    public List<Map<String, Object>> deleteRoomByNo(){
-//        String test = "select * from Room";
-//        return roomMapper.deleteRoomById(test);
-//    }
-
 //  添加房间信息
     @PostMapping("/api/room/add")
     @ApiOperation("用户添加意见箱中意见")

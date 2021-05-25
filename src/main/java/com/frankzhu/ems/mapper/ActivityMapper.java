@@ -9,7 +9,6 @@ import java.util.Map;
 
 @Repository
 public interface ActivityMapper {
-
     // 活动预约
     @Insert("insert into Activity (room_id, resident_id ,date,startTime, endTime, activity_usage,status) VALUES" +
             "(#{room_id}, #{resident_id}, #{date}, #{startTime}, #{endTime}, #{usage},#{status})")

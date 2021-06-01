@@ -84,13 +84,17 @@ public class AdminController {
     @PostMapping("/api/admin/upload")
     @ApiOperation("添加头像图片")
 //    @ApiImplicitParam(name = "usr_tele",value = "用户电话",required = true,paramType = "query",dataType = "String")
-    public Integer uploadAvatar(@RequestParam(required = true) MultipartFile image,
-                                HttpServletRequest request) throws IOException {
-        String basePath = request.getServletContext().getRealPath("upload/");
+    public Integer uploadAvatar(@RequestParam(required = true) MultipartFile image, HttpServletRequest request,
+                                @RequestParam(value = "adminId", defaultValue = "") Integer adminId) throws IOException {
+//        String basePath = request.getServletContext().getRealPath("upload/");
 //        System.out.println(basePath);
 //        在这里把路径设置为电脑中的路径
-        System.out.println(basePath+image.getName());
+//        System.out.println(basePath+image.getName());
+        String basePath ="/home/elizabeth/pic/";
+        String path = basePath+image.getName();
+        System.out.println(path);
         File directory = new File(basePath,image.getName());
+        this.adminMapper.updateAdminAvatar(adminId,path);
         if (!directory.exists()) {
             directory.mkdirs();
         }
@@ -99,9 +103,9 @@ public class AdminController {
         } catch (Exception e) {
             System.out.println(e);
         }
-
         String dir = directory.getCanonicalPath();
         System.out.println(dir);
+        //需要往数据库中存储路径
         return 1;
     }
 

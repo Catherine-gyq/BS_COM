@@ -39,5 +39,7 @@ public interface AdminMapper {
     @Delete("delete from Admin where admin_tele=#{tele}")
     Integer deleteAdminByTele(@Param("tele") String tele);
 
-
+    // 管理员添加头像
+    @Update("update Admin set avatar=#{avatar} where admin_id=#{id}")
+    Integer updateAdminAvatar(@Param("id") int id, @Param("avatar") String avatar);
 }
